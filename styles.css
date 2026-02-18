@@ -1,0 +1,531 @@
+:root {
+    --bg-main: #171717;
+    --bg-card: rgba(255, 255, 255, 0.03);
+    --border-color: rgba(255, 255, 255, 0.15);
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --accent: #f59e0b;
+    --text-white: #ffffff;
+    --radius: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg-main);
+    color: var(--text-white);
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 25px 15px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 25px;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+}
+
+header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* 탭 */
+.tab-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.tab-btn {
+    padding: 10px 25px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    color: var(--text-white);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.tab-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.sub-tab-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.sub-tab-btn {
+    padding: 8px 20px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    color: var(--text-white);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.sub-tab-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.sub-tab-btn.active {
+    background: rgba(99, 102, 241, 0.3);
+    border-color: var(--primary);
+}
+
+.tab-content, .sub-tab-content {
+    display: none;
+}
+
+.tab-content.active, .sub-tab-content.active {
+    display: block;
+}
+
+/* 확률표 */
+.table-container {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.prob-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.prob-table th, .prob-table td {
+    padding: 10px 12px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.prob-table th {
+    background: rgba(99, 102, 241, 0.25);
+    font-weight: 600;
+}
+
+.stat-header-row td {
+    background: rgba(255, 255, 255, 0.04);
+    font-weight: 500;
+}
+
+.stat-header-row td.stat-name {
+    background: rgba(99, 102, 241, 0.15);
+    text-align: left;
+    padding-left: 15px;
+}
+
+.prob-row td {
+    background: rgba(255, 255, 255, 0.02);
+    font-size: 0.8rem;
+}
+
+.prob-row td:first-child {
+    background: rgba(99, 102, 241, 0.08);
+}
+
+.max-val {
+    color: var(--accent) !important;
+    font-weight: 600;
+}
+
+/* 계산기 & 시뮬레이터 */
+.calculator-container, .simulator-container {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 25px;
+    border: 1px solid var(--border-color);
+}
+
+.calc-section, .sim-section {
+    margin-bottom: 22px;
+}
+
+.calc-section h3, .sim-section h3 {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+h2 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+/* 라디오 그룹 */
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.radio-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s;
+}
+
+.radio-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.radio-item input[type="radio"] {
+    display: none;
+}
+
+.radio-circle {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    position: relative;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.radio-item input[type="radio"]:checked + .radio-circle {
+    border-color: var(--primary);
+}
+
+.radio-item input[type="radio"]:checked + .radio-circle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background: var(--primary);
+    border-radius: 50%;
+}
+
+/* 스텟 그리드 */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.stat-btn {
+    padding: 12px 8px;
+    background: rgba(30, 30, 30, 0.95);
+    border: none;
+    color: var(--text-white);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+}
+
+.stat-btn:hover {
+    background: rgba(99, 102, 241, 0.2);
+}
+
+.stat-btn.active {
+    background: var(--primary);
+}
+
+/* 범위 설정 */
+.range-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.range-control {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.range-control label {
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.styled-input {
+    width: 100%;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    color: var(--text-white);
+    font-size: 0.95rem;
+    font-family: inherit;
+    text-align: center;
+}
+
+.styled-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.styled-slider {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.styled-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.styled-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+/* 즉시 확률 */
+.instant-prob {
+    margin-top: 15px;
+    padding: 12px 15px;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: var(--radius);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.instant-label {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.instant-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* 시도 횟수 */
+.try-control {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 버튼 */
+.calc-btn, .sim-btn {
+    width: 100%;
+    padding: 14px 25px;
+    background: var(--primary);
+    border: none;
+    border-radius: var(--radius);
+    color: var(--text-white);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: inherit;
+}
+
+.calc-btn:hover, .sim-btn:hover {
+    background: var(--primary-dark);
+}
+
+/* 결과 */
+.calc-result {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius);
+    border: 1px solid var(--primary);
+}
+
+.calc-result h3 {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.result-item {
+    text-align: center;
+    padding: 15px;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: var(--radius);
+}
+
+.result-item.highlight {
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid var(--accent);
+    grid-column: 1 / -1;
+}
+
+.result-label {
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-bottom: 5px;
+}
+
+.result-value {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.result-item.highlight .result-value {
+    color: var(--accent);
+    font-size: 1.5rem;
+}
+
+/* 시뮬레이터 */
+.sim-results {
+    margin-top: 20px;
+}
+
+.sim-results h3 {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+}
+
+.sim-summary {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2px;
+    margin-bottom: 15px;
+    background: var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.sim-summary-item {
+    text-align: center;
+    padding: 10px 5px;
+    background: rgba(30, 30, 30, 0.95);
+}
+
+.sim-summary-item .label {
+    display: block;
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-bottom: 3px;
+}
+
+.sim-summary-item .value {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.sim-history {
+    max-height: 300px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.01);
+    border-radius: var(--radius);
+    padding: 10px;
+}
+
+.sim-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius);
+    border-left: 3px solid #9ca3af;
+    font-size: 0.9rem;
+}
+
+.sim-item:last-child { margin-bottom: 0; }
+.sim-item.t3 { border-left-color: #3b82f6; }
+.sim-item.t2 { border-left-color: #f59e0b; }
+.sim-item.t1 { border-left-color: #ef4444; }
+
+.sim-item-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sim-item-num {
+    opacity: 0.5;
+    font-size: 0.8rem;
+}
+
+.sim-item-value { font-weight: 600; }
+.sim-item-prob { font-size: 0.75rem; opacity: 0.6; }
+
+.hidden { display: none !important; }
+
+footer {
+    margin-top: 40px;
+    text-align: center;
+    padding: 15px;
+    opacity: 0.5;
+    font-size: 0.8rem;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+@media (max-width: 600px) {
+    .container { padding: 15px 10px; }
+    header h1 { font-size: 1.4rem; }
+    .tab-btn { padding: 8px 15px; font-size: 0.85rem; }
+    .prob-table th, .prob-table td { padding: 8px 6px; font-size: 0.75rem; }
+    .range-controls { grid-template-columns: 1fr; }
+    .result-grid { grid-template-columns: 1fr; }
+    .sim-summary { grid-template-columns: repeat(3, 1fr); }
+    .stat-btn { font-size: 0.7rem; padding: 10px 5px; }
+}
