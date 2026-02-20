@@ -1,505 +1,90 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>성지키기 헬퍼</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+        }
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            max-width: 320px;
+        }
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 20px 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        .menu-icon { font-size: 1.4rem; }
+        .menu-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+        }
+        .menu-title { font-weight: 600; }
+        .menu-desc { font-size: 0.75rem; opacity: 0.5; font-weight: 400; }
+        .footer { margin-top: auto; padding-top: 60px; font-size: 0.75rem; opacity: 0.3; }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🌙 영혼 계산기</h1>
-        </header>
-
-        <nav class="tab-nav">
-            <button class="tab-btn active" data-tab="probability">확률표</button>
-            <button class="tab-btn" data-tab="calculator">계산기</button>
-            <button class="tab-btn" data-tab="simulator">시뮬레이터</button>
-        </nav>
-
-        <!-- 확률표 탭 -->
-        <section id="probability" class="tab-content active">
-            <div class="sub-tab-nav">
-                <button class="sub-tab-btn active" data-subtab="relic">유물 / 날개</button>
-                <button class="sub-tab-btn" data-subtab="accessory">악세서리</button>
-            </div>
-
-            <!-- 유물/날개 -->
-            <div id="relic" class="sub-tab-content active">
-                <div class="table-container">
-                    <table class="prob-table">
-                        <thead>
-                            <tr>
-                                <th>스텟</th>
-                                <th colspan="4">수치별 확률</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">💀 크리티컬 데미지</td>
-                                <td>1 ~ 7</td>
-                                <td>8</td>
-                                <td>9</td>
-                                <td class="max-val">10</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 14.0333%</td>
-                                <td class="prob-cell">1.0333%</td>
-                                <td class="prob-cell">0.5333%</td>
-                                <td class="prob-cell max-val">0.2%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">🎯 크리티컬 확률</td>
-                                <td>1 ~ 7</td>
-                                <td>8</td>
-                                <td>9</td>
-                                <td class="max-val">10</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 14.0333%</td>
-                                <td class="prob-cell">1.0333%</td>
-                                <td class="prob-cell">0.5333%</td>
-                                <td class="prob-cell max-val">0.2%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">🛡️ 방어력</td>
-                                <td>1 ~ 7</td>
-                                <td>8</td>
-                                <td>9</td>
-                                <td class="max-val">10</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 14.0333%</td>
-                                <td class="prob-cell">1.0333%</td>
-                                <td class="prob-cell">0.5333%</td>
-                                <td class="prob-cell max-val">0.2%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">💚 체력 회복</td>
-                                <td>1 ~ 7</td>
-                                <td>8</td>
-                                <td>9</td>
-                                <td class="max-val">10</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 14.0333%</td>
-                                <td class="prob-cell">1.0333%</td>
-                                <td class="prob-cell">0.5333%</td>
-                                <td class="prob-cell max-val">0.2%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">⚡ 공격속도</td>
-                                <td>1 ~ 5</td>
-                                <td>6</td>
-                                <td>7</td>
-                                <td class="max-val">8</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 19.5452%</td>
-                                <td class="prob-cell">1.3452%</td>
-                                <td class="prob-cell">0.6786%</td>
-                                <td class="prob-cell max-val">0.25%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">⚔️ 공격력</td>
-                                <td>1 ~ 14</td>
-                                <td>15</td>
-                                <td>16</td>
-                                <td class="max-val">17</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 7.0718%</td>
-                                <td class="prob-cell">0.5718%</td>
-                                <td class="prob-cell">0.3051%</td>
-                                <td class="prob-cell max-val">0.1176%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">❤️ 체력</td>
-                                <td>10 ~ 280</td>
-                                <td>290</td>
-                                <td>300</td>
-                                <td class="max-val">310</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 3.5524%</td>
-                                <td class="prob-cell">0.3024%</td>
-                                <td class="prob-cell">0.1645%</td>
-                                <td class="prob-cell max-val">0.0645%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">👟 이동속도</td>
-                                <td>1 ~ 12</td>
-                                <td>13</td>
-                                <td>14</td>
-                                <td class="max-val">15</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 8.2386%</td>
-                                <td class="prob-cell">0.6553%</td>
-                                <td class="prob-cell">0.3476%</td>
-                                <td class="prob-cell max-val">0.1333%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">📈 경험치획득률</td>
-                                <td>1 ~ 13</td>
-                                <td>14</td>
-                                <td>15</td>
-                                <td class="max-val">16</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 7.6107%</td>
-                                <td class="prob-cell">0.6107%</td>
-                                <td class="prob-cell">0.325%</td>
-                                <td class="prob-cell max-val">0.125%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- 악세서리 -->
-            <div id="accessory" class="sub-tab-content">
-                <div class="table-container">
-                    <table class="prob-table">
-                        <thead>
-                            <tr>
-                                <th>스텟</th>
-                                <th colspan="5">수치별 확률</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">💀 크리티컬 데미지</td>
-                                <td>1 ~ 2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
-                                <td class="max-val">6</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 43.65%</td>
-                                <td class="prob-cell">8.65%</td>
-                                <td class="prob-cell">1.9833%</td>
-                                <td class="prob-cell">1.2333%</td>
-                                <td class="prob-cell max-val">0.8333%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">⚡ 공격속도</td>
-                                <td>1 ~ 2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
-                                <td class="max-val">6</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 43.65%</td>
-                                <td class="prob-cell">8.65%</td>
-                                <td class="prob-cell">1.9833%</td>
-                                <td class="prob-cell">1.2333%</td>
-                                <td class="prob-cell max-val">0.8333%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">🎯 크리티컬 확률</td>
-                                <td>1 ~ 2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
-                                <td class="max-val">6</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 43.65%</td>
-                                <td class="prob-cell">8.65%</td>
-                                <td class="prob-cell">1.9833%</td>
-                                <td class="prob-cell">1.2333%</td>
-                                <td class="prob-cell max-val">0.8333%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">🛡️ 방어력</td>
-                                <td>1 ~ 2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
-                                <td class="max-val">6</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 43.65%</td>
-                                <td class="prob-cell">8.65%</td>
-                                <td class="prob-cell">1.9833%</td>
-                                <td class="prob-cell">1.2333%</td>
-                                <td class="prob-cell max-val">0.8333%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">💚 체력 회복</td>
-                                <td>1 ~ 2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
-                                <td class="max-val">6</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 43.65%</td>
-                                <td class="prob-cell">8.65%</td>
-                                <td class="prob-cell">1.9833%</td>
-                                <td class="prob-cell">1.2333%</td>
-                                <td class="prob-cell max-val">0.8333%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">⚔️ 공격력</td>
-                                <td>1 ~ 8</td>
-                                <td>9</td>
-                                <td>10</td>
-                                <td>11</td>
-                                <td class="max-val">12</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 11.8707%</td>
-                                <td class="prob-cell">3.1207%</td>
-                                <td class="prob-cell">0.8985%</td>
-                                <td class="prob-cell">0.5985%</td>
-                                <td class="prob-cell max-val">0.4167%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">❤️ 체력</td>
-                                <td>10 ~ 120</td>
-                                <td>130</td>
-                                <td>140</td>
-                                <td>150</td>
-                                <td class="max-val">160</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 8.0319%</td>
-                                <td class="prob-cell">2.1986%</td>
-                                <td class="prob-cell">0.6601%</td>
-                                <td class="prob-cell">0.4458%</td>
-                                <td class="prob-cell max-val">0.3125%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">👟 이동속도</td>
-                                <td>1 ~ 6</td>
-                                <td>7</td>
-                                <td>8</td>
-                                <td>9</td>
-                                <td class="max-val">10</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 15.621%</td>
-                                <td class="prob-cell">3.9544%</td>
-                                <td class="prob-cell">1.0972%</td>
-                                <td class="prob-cell">0.7222%</td>
-                                <td class="prob-cell max-val">0.5%</td>
-                            </tr>
-                            <tr class="stat-header-row">
-                                <td class="stat-name">📈 경험치획득률</td>
-                                <td>1 ~ 6</td>
-                                <td>7</td>
-                                <td>8</td>
-                                <td>9</td>
-                                <td class="max-val">10</td>
-                            </tr>
-                            <tr class="prob-row">
-                                <td></td>
-                                <td class="prob-cell">각 15.621%</td>
-                                <td class="prob-cell">3.9544%</td>
-                                <td class="prob-cell">1.0972%</td>
-                                <td class="prob-cell">0.7222%</td>
-                                <td class="prob-cell max-val">0.5%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- 계산기 탭 -->
-        <section id="calculator" class="tab-content">
-            <h2>🧮 계산기</h2>
-            <div class="calculator-container">
-                <div class="calc-section">
-                    <h3>장비 타입</h3>
-                    <div class="radio-group">
-                        <label class="radio-item">
-                            <input type="radio" name="calcEquip" value="relic" checked>
-                            <span class="radio-circle"></span>
-                            <span>유물/날개</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="calcEquip" value="accessory">
-                            <span class="radio-circle"></span>
-                            <span>악세서리</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="calc-section">
-                    <h3>스텟 선택</h3>
-                    <div class="stat-grid" id="calcStatGrid"></div>
-                </div>
-
-                <div class="calc-section">
-                    <h3>계산 모드</h3>
-                    <div class="radio-group">
-                        <label class="radio-item">
-                            <input type="radio" name="calcMode" value="range" checked>
-                            <span class="radio-circle"></span>
-                            <span>범위 (A ~ B)</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="calcMode" value="gte">
-                            <span class="radio-circle"></span>
-                            <span>이상 (≥)</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="calcMode" value="lte">
-                            <span class="radio-circle"></span>
-                            <span>이하 (≤)</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="calc-section">
-                    <h3>범위 설정</h3>
-                    <div class="range-controls">
-                        <div class="range-control" id="rangeAGroup">
-                            <label>시작</label>
-                            <input type="number" id="rangeA" class="styled-input" value="1">
-                            <input type="range" id="sliderA" class="styled-slider" min="1" max="10" value="1">
-                        </div>
-                        <div class="range-control" id="rangeBGroup">
-                            <label>끝</label>
-                            <input type="number" id="rangeB" class="styled-input" value="10">
-                            <input type="range" id="sliderB" class="styled-slider" min="1" max="10" value="10">
-                        </div>
-                    </div>
-                    <div class="instant-prob">
-                        <span class="instant-label">선택 범위 확률</span>
-                        <span class="instant-value" id="instantProbValue">-</span>
-                    </div>
-                </div>
-
-                <div class="calc-section">
-                    <h3>시도 횟수</h3>
-                    <div class="try-control">
-                        <input type="number" id="tryCount" class="styled-input" min="1" max="100" value="10">
-                        <input type="range" id="trySlider" class="styled-slider" min="1" max="100" value="10">
-                    </div>
-                </div>
-
-                <button id="calculateBtn" class="calc-btn">계산하기</button>
-
-                <div id="calcResult" class="calc-result hidden">
-                    <h3>📋 계산 결과</h3>
-                    <div class="result-grid">
-                        <div class="result-item">
-                            <span class="result-label">1회 성공 확률</span>
-                            <span class="result-value" id="resultProb">-</span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">평균 필요 시행</span>
-                            <span class="result-value" id="resultAvg">-</span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">50% 확률 도달</span>
-                            <span class="result-value" id="result50">-</span>
-                        </div>
-                        <div class="result-item">
-                            <span class="result-label">90% 확률 도달</span>
-                            <span class="result-value" id="result90">-</span>
-                        </div>
-                        <div class="result-item highlight">
-                            <span class="result-label">N회 시도 시 성공 확률</span>
-                            <span class="result-value" id="resultSuccess">-</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 시뮬레이터 탭 -->
-        <section id="simulator" class="tab-content">
-            <h2>🎰 시뮬레이터</h2>
-            <div class="simulator-container">
-                <div class="sim-section">
-                    <h3>장비 타입</h3>
-                    <div class="radio-group">
-                        <label class="radio-item">
-                            <input type="radio" name="simEquip" value="relic" checked>
-                            <span class="radio-circle"></span>
-                            <span>유물/날개</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="simEquip" value="accessory">
-                            <span class="radio-circle"></span>
-                            <span>악세서리</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="sim-section">
-                    <h3>스텟 선택</h3>
-                    <div class="stat-grid" id="simStatGrid"></div>
-                </div>
-
-                <div class="sim-section">
-                    <h3>시뮬레이션 횟수</h3>
-                    <div class="radio-group">
-                        <label class="radio-item">
-                            <input type="radio" name="simCount" value="1">
-                            <span class="radio-circle"></span>
-                            <span>1회</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="simCount" value="10" checked>
-                            <span class="radio-circle"></span>
-                            <span>10회</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="simCount" value="50">
-                            <span class="radio-circle"></span>
-                            <span>50회</span>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="simCount" value="100">
-                            <span class="radio-circle"></span>
-                            <span>100회</span>
-                        </label>
-                    </div>
-                </div>
-
-                <button id="simulateBtn" class="sim-btn">🎲 시뮬레이션 시작!</button>
-
-                <div id="simResults" class="sim-results hidden">
-                    <h3>📊 결과</h3>
-                    <div id="simSummary" class="sim-summary"></div>
-                    <div id="simHistory" class="sim-history"></div>
-                </div>
-            </div>
-        </section>
-
-        <footer>
-            <p>© 2026 성지키기 헬퍼</p>
-        </footer>
+    <h1 class="title">성지키기 헬퍼</h1>
+    <div class="menu-container">
+        <a href="soul.html" class="menu-btn">
+            <span class="menu-icon"></span>
+            <span class="menu-text">
+                <span class="menu-title">영혼 계산기</span>
+                <span class="menu-desc">영혼 확률 계산 및 시뮬레이션</span>
+            </span>
+        </a>
+        <a href="tower.html" class="menu-btn">
+            <span class="menu-icon"></span>
+            <span class="menu-text">
+                <span class="menu-title">13타워 도우미</span>
+                <span class="menu-desc">라운드 타이머 및 몹 정보</span>
+            </span>
+        </a>
     </div>
-
-    <script src="data.js"></script>
-    <script src="app.js"></script>
+    <div class="footer">© 2026 CDO Helper. All Rights Reserved.</div>
 </body>
 </html>
