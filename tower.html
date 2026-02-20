@@ -282,6 +282,69 @@
             overflow: hidden;
         }
 
+        /* 알람 옵션 */
+        .alarm-options {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .option-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .option-row:last-of-type {
+            margin-bottom: 15px;
+        }
+        .option-row label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .option-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .option-slider {
+            width: 120px;
+            -webkit-appearance: none;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            outline: none;
+        }
+        .option-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #6366f1;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .option-control span {
+            min-width: 45px;
+            text-align: right;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .test-btn {
+            width: 100%;
+            padding: 10px;
+            background: rgba(99, 102, 241, 0.3);
+            border: 1px solid #6366f1;
+            border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .test-btn:hover {
+            background: rgba(99, 102, 241, 0.5);
+        }
+
         /* 알람 효과 */
         .alarm-active {
             animation: alarm-pulse 0.5s ease-in-out infinite alternate;
@@ -321,6 +384,27 @@
             <div class="alarm-section">
                 <h3>🔔 알람 설정 (클릭하여 선택)</h3>
                 <div class="round-list" id="roundList"></div>
+            </div>
+
+            <div class="alarm-section" style="margin-top: 20px;">
+                <h3>🔊 알람 옵션</h3>
+                <div class="alarm-options">
+                    <div class="option-row">
+                        <label>반복 횟수</label>
+                        <div class="option-control">
+                            <input type="range" id="alarmCount" min="1" max="5" value="1" class="option-slider">
+                            <span id="alarmCountValue">1회</span>
+                        </div>
+                    </div>
+                    <div class="option-row">
+                        <label>볼륨</label>
+                        <div class="option-control">
+                            <input type="range" id="alarmVolume" min="10" max="400" value="100" class="option-slider">
+                            <span id="alarmVolumeValue">100%</span>
+                        </div>
+                    </div>
+                    <button id="testAlarmBtn" class="test-btn">🔔 테스트</button>
+                </div>
             </div>
         </section>
 
@@ -441,6 +525,8 @@
         let isRunning = false;
         let selectedAlarms = new Set();
         let alarmAudio = null;
+        let alarmCount = 1;
+        let alarmVolume = 100;
 
         // 초기화
         document.addEventListener('DOMContentLoaded', () => {
@@ -448,6 +534,7 @@
             initRoundList();
             initTimer();
             initAlarmSound();
+            initAlarmOptions();
         });
 
         function initAlarmSound() {
@@ -455,8 +542,54 @@
             alarmAudio = new (window.AudioContext || window.webkitAudioContext)();
         }
 
+        function initAlarmOptions() {
+            const countSlider = document.getElementById('alarmCount');
+            const countValue = document.getElementById('alarmCountValue');
+            const volumeSlider = document.getElementById('alarmVolume');
+            const volumeValue = document.getElementById('alarmVolumeValue');
+            const testBtn = document.getElementById('testAlarmBtn');
+
+            // localStorage에서 불러오기
+            const savedCount = localStorage.getItem('towerAlarmCount');
+            const savedVolume = localStorage.getItem('towerAlarmVolume');
+            if (savedCount) {
+                alarmCount = parseInt(savedCount);
+                countSlider.value = alarmCount;
+                countValue.textContent = alarmCount + '회';
+            }
+            if (savedVolume) {
+                alarmVolume = parseInt(savedVolume);
+                volumeSlider.value = alarmVolume;
+                volumeValue.textContent = alarmVolume + '%';
+            }
+
+            countSlider.addEventListener('input', () => {
+                alarmCount = parseInt(countSlider.value);
+                countValue.textContent = alarmCount + '회';
+                localStorage.setItem('towerAlarmCount', alarmCount);
+            });
+
+            volumeSlider.addEventListener('input', () => {
+                alarmVolume = parseInt(volumeSlider.value);
+                volumeValue.textContent = alarmVolume + '%';
+                localStorage.setItem('towerAlarmVolume', alarmVolume);
+            });
+
+            testBtn.addEventListener('click', () => {
+                playAlarmSequence();
+            });
+        }
+
+        function playAlarmSequence() {
+            for (let i = 0; i < alarmCount; i++) {
+                setTimeout(() => playAlarm(), i * 500);
+            }
+        }
+
         function playAlarm() {
             if (!alarmAudio) return;
+            
+            const volume = (alarmVolume / 100) * 0.3; // 기본 0.3을 기준으로 조절
             
             const oscillator = alarmAudio.createOscillator();
             const gainNode = alarmAudio.createGain();
@@ -467,7 +600,7 @@
             oscillator.frequency.value = 880;
             oscillator.type = 'sine';
             
-            gainNode.gain.setValueAtTime(0.3, alarmAudio.currentTime);
+            gainNode.gain.setValueAtTime(volume, alarmAudio.currentTime);
             gainNode.gain.exponentialRampToValueAtTime(0.01, alarmAudio.currentTime + 0.5);
             
             oscillator.start(alarmAudio.currentTime);
@@ -481,7 +614,7 @@
                 gain2.connect(alarmAudio.destination);
                 osc2.frequency.value = 1100;
                 osc2.type = 'sine';
-                gain2.gain.setValueAtTime(0.3, alarmAudio.currentTime);
+                gain2.gain.setValueAtTime(volume, alarmAudio.currentTime);
                 gain2.gain.exponentialRampToValueAtTime(0.01, alarmAudio.currentTime + 0.5);
                 osc2.start(alarmAudio.currentTime);
                 osc2.stop(alarmAudio.currentTime + 0.5);
@@ -602,7 +735,7 @@
         function checkAlarms() {
             for (const r of ROUNDS) {
                 if (selectedAlarms.has(r.round) && elapsedSeconds === r.time) {
-                    playAlarm();
+                    playAlarmSequence();
                     triggerAlarmEffect();
                     break;
                 }
