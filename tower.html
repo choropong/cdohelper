@@ -104,11 +104,41 @@
             margin-bottom: 20px;
         }
 
+        .time-adjust-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 8px;
+        }
+
+        .adjust-btn {
+            width: 50px;
+            height: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .adjust-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .adjust-btn:active {
+            transform: scale(0.95);
+        }
+
         .current-time {
             font-size: 3.5rem;
             font-weight: 700;
             font-variant-numeric: tabular-nums;
-            margin-bottom: 8px;
+            min-width: 140px;
         }
 
         .current-round {
@@ -372,7 +402,11 @@
         <!-- 타이머 탭 -->
         <section id="timer" class="tab-content active">
             <div class="timer-display">
-                <div class="current-time" id="timerDisplay">0:00</div>
+                <div class="time-adjust-row">
+                    <button class="adjust-btn" id="minusBtn">-5</button>
+                    <div class="current-time" id="timerDisplay">0:00</div>
+                    <button class="adjust-btn" id="plusBtn">+5</button>
+                </div>
                 <div class="current-round" id="roundDisplay">시작 전</div>
             </div>
 
@@ -673,6 +707,13 @@
         function initTimer() {
             document.getElementById('startBtn').addEventListener('click', startTimer);
             document.getElementById('resetBtn').addEventListener('click', resetTimer);
+            document.getElementById('minusBtn').addEventListener('click', () => adjustTime(-5));
+            document.getElementById('plusBtn').addEventListener('click', () => adjustTime(5));
+        }
+
+        function adjustTime(delta) {
+            elapsedSeconds = Math.max(0, elapsedSeconds + delta);
+            updateDisplay();
         }
 
         function startTimer() {
