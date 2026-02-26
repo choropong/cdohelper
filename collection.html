@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>컬렉션 - 성지키기 헬퍼</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; line-height: 1.5; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px 15px; }
+        .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; background: transparent; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.85rem; text-decoration: none; margin-bottom: 20px; }
+        .back-btn:hover { background: rgba(255,255,255,0.05); }
+        header { text-align: center; margin-bottom: 30px; }
+        header h1 { font-size: 1.5rem; font-weight: 700; }
+        header p { font-size: 0.85rem; opacity: 0.5; margin-top: 8px; }
+
+        .collection-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; margin-bottom: 16px; overflow: hidden; }
+        .collection-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(167,139,250,0.1)); border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .collection-title { font-size: 1.1rem; font-weight: 600; color: #a78bfa; }
+        .collection-buff { display: flex; align-items: center; gap: 8px; padding: 6px 14px; background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); border-radius: 20px; font-size: 0.85rem; color: #22c55e; font-weight: 500; }
+        .collection-buff.special { background: rgba(251,191,36,0.15); border-color: rgba(251,191,36,0.3); color: #fbbf24; }
+
+        .collection-relics { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px 20px; }
+        .relic-slot { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 70px; cursor: pointer; transition: transform 0.15s; }
+        .relic-slot:hover { transform: translateY(-3px); }
+        .relic-icon { width: 56px; height: 56px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; overflow: hidden; transition: all 0.15s; }
+        .relic-slot:hover .relic-icon { border-color: #6366f1; box-shadow: 0 0 12px rgba(99,102,241,0.4); }
+        .relic-icon img { width: 100%; height: 100%; object-fit: cover; }
+        .relic-icon span { font-size: 0.7rem; color: rgba(255,255,255,0.4); }
+        .relic-label { font-size: 0.7rem; text-align: center; opacity: 0.7; word-break: keep-all; line-height: 1.3; }
+
+        /* Modal Styles (same as relic.html) */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { width: 100%; max-width: 420px; max-height: 90vh; overflow-y: auto; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; }
+        .modal::-webkit-scrollbar { width: 8px; }
+        .modal::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 4px; }
+        .modal::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #6366f1, #a78bfa); border-radius: 4px; }
+        .modal-header { display: flex; align-items: center; gap: 14px; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .modal-img-wrap { width: 64px; height: 64px; border-radius: 12px; background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(167,139,250,0.3)); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+        .modal-img-placeholder { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+        .modal-img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .modal-title-area { flex: 1; }
+        .modal-title-area h2 { font-size: 1.25rem; font-weight: 600; }
+        .modal-title-area span { font-size: 0.8rem; opacity: 0.5; }
+        .modal-close { width: 36px; height: 36px; border: none; border-radius: 50%; background: rgba(255,255,255,0.1); color: #fff; font-size: 1.5rem; cursor: pointer; line-height: 1; }
+        .modal-close:hover { background: rgba(255,255,255,0.2); }
+        .modal-body { padding: 20px; }
+        .level-selector { margin-bottom: 20px; }
+        .level-display { text-align: center; margin-bottom: 12px; }
+        .level-display span { font-size: 1.3rem; font-weight: 700; color: #a78bfa; }
+        .level-slider { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.1); outline: none; -webkit-appearance: none; cursor: pointer; }
+        .level-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #a78bfa); cursor: pointer; box-shadow: 0 2px 8px rgba(99,102,241,0.5); }
+        .level-slider::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #a78bfa); cursor: pointer; border: none; }
+        .level-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.8rem; opacity: 0.5; }
+        .info-section { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+        .info-section h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.5; margin-bottom: 10px; }
+        .stat-line { display: flex; justify-content: space-between; padding: 6px 0; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .stat-line:last-child { border-bottom: none; }
+        .stat-line .label { opacity: 0.8; }
+        .stat-line .value { color: #22c55e; font-weight: 600; }
+        .stat-line .value.negative { color: #ef4444; }
+        .ability-text { font-size: 0.95rem; line-height: 1.7; color: #fbbf24; white-space: pre-line; }
+        .ability-text.inactive { color: rgba(255,255,255,0.4); }
+        .blackhammer-note { margin-top: 12px; padding: 10px; background: rgba(167,139,250,0.1); border-radius: 8px; font-size: 0.8rem; color: #a78bfa; }
+        .blackhammer-modal .modal { max-width: 500px; }
+        .blackhammer-info { padding: 0; }
+        .blackhammer-desc { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(167,139,250,0.1)); border: 1px solid rgba(167,139,250,0.3); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+        .blackhammer-desc h4 { color: #a78bfa; margin-bottom: 8px; font-size: 0.9rem; }
+        .blackhammer-desc p { font-size: 0.9rem; line-height: 1.6; opacity: 0.9; }
+        .blackhammer-9plus { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); border-radius: 10px; padding: 12px; margin-bottom: 16px; }
+        .blackhammer-9plus strong { color: #fbbf24; }
+        .tier-section { margin-bottom: 12px; }
+        .tier-header { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-bottom: 8px; }
+        .tier-badge { background: #6366f1; color: #fff; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .tier-header span { font-size: 0.85rem; opacity: 0.7; }
+        .tier-relics { display: flex; flex-wrap: wrap; gap: 6px; padding-left: 8px; }
+        .tier-relic { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; }
+
+        footer { text-align: center; padding: 30px 0 10px; opacity: 0.3; font-size: 0.75rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← 메인으로</a>
+        <header>
+            <h1>📚 컬렉션</h1>
+            <p>유물을 모아 컬렉션을 완성하고 추가 버프를 얻으세요</p>
+        </header>
+        <div id="collectionContainer"></div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="relicModal">
+            <div class="modal-header">
+                <div class="modal-img-wrap">
+                    <div class="modal-img-placeholder" id="modalImgPlaceholder"></div>
+                    <img class="modal-img" id="modalImg" src="" alt="">
+                </div>
+                <div class="modal-title-area">
+                    <h2 id="modalName"></h2>
+                    <span id="modalTier"></span>
+                </div>
+                <button class="modal-close" id="modalClose">×</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <footer>© 2026 성지키기 헬퍼. All Rights Reserved.</footer>
+
+    <script src="relic-data.js"></script>
+    <script>
+        var COLLECTIONS = [
+            { name: '그리스 신화 1', buff: '신화템 +1', buffType: 'special',
+              relics: ['아이기스', '아킬레우스갑주', '판도라의상자', '카두케우스', '암브로시아'] },
+            { name: '그리스 신화 2', buff: '신화템 +1', buffType: 'special',
+              relics: ['네메아사자가죽', '아이아스의방패', '삼지창', '에로스의화살', '탈라리아'] },
+            { name: '유럽 전설', buff: '공격 속도 15%',
+              relics: ['듀랜달', '바리사다', '현자의돌', '황금사과'] },
+            { name: '아서왕 전설', buff: '크리티컬 데미지 15%',
+              relics: ['페일노트', '갈라틴', '아론다이트', '엑스칼리버'] },
+            { name: '북유럽 신화', buff: '방어력 20',
+              relics: ['묠니르', '미스틸테인', '레바테인', '궁니르', '다인슬라이프', '티르빙'] },
+            { name: '중국 전설', buff: '체력 800',
+              relics: ['여의봉', '파초선', '전국옥새', '간장막야', '반고부', '불로초'] },
+            { name: '삼국지연의', buff: '체력 500',
+              relics: ['청룡언월도', '의천검', '청강검', '방천화극'] },
+            { name: '켈트 신화', buff: '공격력 50',
+              relics: ['칼라드볼그', '브란의가마솥', '게볼그', '타흘룸'] },
+            { name: '일본 신화', buff: '쿨타임 감소 1%',
+              relics: ['다이츠렌', '천총운검'] },
+            { name: '한국 신화', buff: '특성 10', buffType: 'special',
+              relics: ['매화검', '천근살', '천사옥대', '쌍룡검', '용광검'] },
+            { name: '이집트·로마 신화', buff: '초당 체력 회복 15',
+              relics: ['앙킬라', '토트의서', '앙크', '사자의서'] },
+            { name: '인도 신화', buff: '흡혈 4%',
+              relics: ['찬드라하스', '사릉가'] },
+            { name: '기타 신화', buff: '경험치 획득율 30%',
+              relics: ['힐데그림', '요술램프', '아카식레코드', '아스칼론', '솔로몬의반지', '네크로노미콘', '골렘'] },
+            { name: '성지키기 전설', buff: '초당 골드 1',
+              relics: ['블랙해머', '성지키기설계도'] },
+            { name: '고대 보물', buff: '받는 데미지 -5%',
+              relics: ['오라클', '바인드하트', '에테리온', '황금알오리', '언약궤'] }
+        ];
+
+        var currentRelic = null;
+        var currentLevel = 1;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCollections();
+            initModal();
+        });
+
+        function renderCollections() {
+            var container = document.getElementById('collectionContainer');
+            var html = '';
+            for (var i = 0; i < COLLECTIONS.length; i++) {
+                var col = COLLECTIONS[i];
+                html += '<div class="collection-card">';
+                html += '<div class="collection-header">';
+                html += '<div class="collection-title">' + col.name + '</div>';
+                html += '<div class="collection-buff' + (col.buffType === 'special' ? ' special' : '') + '">✨ ' + col.buff + '</div>';
+                html += '</div>';
+                html += '<div class="collection-relics">';
+                for (var j = 0; j < col.relics.length; j++) {
+                    var relicName = col.relics[j];
+                    html += '<div class="relic-slot" data-name="' + relicName + '">';
+                    html += '<div class="relic-icon"><img src="images/' + relicName + '.png" alt="' + relicName + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'"><span style="display:none">' + relicName.substring(0,2) + '</span></div>';
+                    html += '<div class="relic-label">' + relicName + '</div>';
+                    html += '</div>';
+                }
+                html += '</div></div>';
+            }
+            container.innerHTML = html;
+
+            var slots = document.querySelectorAll('.relic-slot');
+            for (var k = 0; k < slots.length; k++) {
+                slots[k].onclick = function() {
+                    var name = this.getAttribute('data-name');
+                    for (var m = 0; m < RELIC_DATA.length; m++) {
+                        if (RELIC_DATA[m].name === name) {
+                            openModal(RELIC_DATA[m]);
+                            break;
+                        }
+                    }
+                };
+            }
+        }
+
+        function initModal() {
+            document.getElementById('modalClose').onclick = closeModal;
+            document.getElementById('modalOverlay').onclick = function(e) {
+                if (e.target === e.currentTarget) closeModal();
+            };
+        }
+
+        function openModal(relic) {
+            currentRelic = relic;
+            currentLevel = 1;
+            document.getElementById('modalName').textContent = relic.name;
+            document.getElementById('modalTier').textContent = relic.tier;
+            var placeholder = document.getElementById('modalImgPlaceholder');
+            var modalImg = document.getElementById('modalImg');
+            placeholder.textContent = relic.name.substring(0, 2);
+            placeholder.style.display = 'block';
+            modalImg.src = 'images/' + relic.name + '.png';
+            modalImg.style.display = 'block';
+            modalImg.onerror = function() { this.style.display = 'none'; placeholder.style.display = 'block'; };
+            modalImg.onload = function() { placeholder.style.display = 'none'; };
+            var overlay = document.getElementById('modalOverlay');
+            if (relic.customAbility === 'blackhammer') {
+                overlay.classList.add('blackhammer-modal');
+                renderBlackhammerUI();
+            } else {
+                overlay.classList.remove('blackhammer-modal');
+                renderLevelSelector(relic);
+                updateInfo(1);
+            }
+            overlay.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            currentRelic = null;
+        }
+
+        function renderBlackhammerUI() {
+            var body = document.getElementById('modalBody');
+            var html = '<div class="blackhammer-info">';
+            html += '<div class="blackhammer-desc"><h4>블랙해머 효과</h4><p>다른 유물들의 특수능력을 +1강 증가시킵니다.<br>(장착 무관하며 보유 시 발동)</p></div>';
+            html += '<div class="blackhammer-9plus"><strong>9강 추가 효과</strong><br><span style="font-size:0.85rem; opacity:0.9;">데미갓 이상일 경우 유물 장착 슬롯 +1</span></div>';
+            html += '<h4 style="font-size:0.85rem; opacity:0.6; margin-bottom:12px;">강화 단계별 적용 유물</h4>';
+            for (var tier = 1; tier <= 8; tier++) {
+                var relics = BLACKHAMMER_TIERS[tier] || [];
+                if (relics.length === 0) continue;
+                html += '<div class="tier-section"><div class="tier-header"><span class="tier-badge">' + tier + '강</span><span>부터 적용</span></div><div class="tier-relics">';
+                for (var i = 0; i < relics.length; i++) { html += '<span class="tier-relic">' + relics[i] + '</span>'; }
+                html += '</div></div>';
+            }
+            html += '</div>';
+            body.innerHTML = html;
+        }
+
+        function renderLevelSelector(relic) {
+            var body = document.getElementById('modalBody');
+            var maxLevel = relic.blackhammerTier ? 10 : 9;
+            var html = '<div class="level-selector">';
+            html += '<div class="level-display"><span id="levelText">1강</span></div>';
+            html += '<input type="range" class="level-slider" id="levelSlider" min="1" max="' + maxLevel + '" value="1">';
+            html += '<div class="level-labels"><span>1강</span><span>' + (maxLevel === 10 ? '9+1' : '9강') + '</span></div>';
+            html += '</div><div id="statsSection"></div><div class="info-section" id="abilitySection"></div>';
+            body.innerHTML = html;
+            var slider = document.getElementById('levelSlider');
+            slider.oninput = function() {
+                var level = parseInt(this.value);
+                var label = (level === 10) ? '9+1' : level + '강';
+                document.getElementById('levelText').textContent = label;
+                currentLevel = level;
+                updateInfo(level);
+            };
+        }
+
+        function updateInfo(level) { renderStats(level); renderAbility(level); }
+
+        function renderStats(level) {
+            var section = document.getElementById('statsSection');
+            if (!currentRelic || currentRelic.baseStat.length === 0) { section.innerHTML = ''; return; }
+            var statLevel = level === 10 ? 9 : level;
+            var html = '<div class="info-section"><h4>기본 스탯</h4>';
+            var negativeIsGood = ['부활시간'];
+            for (var i = 0; i < currentRelic.baseStat.length; i++) {
+                var stat = currentRelic.baseStat[i];
+                var name = stat[0], base = stat[1], unit = stat[2] || '';
+                var value = currentRelic.noStatMultiplier ? base : base * statLevel;
+                var sign = value >= 0 ? '+' : '';
+                var isNegativeGood = negativeIsGood.indexOf(name) !== -1;
+                var isNegative = isNegativeGood ? (value > 0) : (value < 0);
+                html += '<div class="stat-line"><span class="label">' + name + '</span><span class="value' + (isNegative ? ' negative' : '') + '">' + sign + value + unit + '</span></div>';
+            }
+            html += '</div>';
+            section.innerHTML = html;
+        }
+
+        function renderAbility(level) {
+            var section = document.getElementById('abilitySection');
+            if (!currentRelic) { section.innerHTML = ''; return; }
+            var html = '<h4>유물 능력</h4>';
+            if (level < currentRelic.abilityStart) {
+                html += '<div class="ability-text inactive">' + currentRelic.abilityStart + '강부터 능력 발동</div>';
+            } else {
+                var abilityText = calculateAbility(currentRelic, level);
+                html += '<div class="ability-text">' + abilityText + '</div>';
+                if (level === 10 && currentRelic.blackhammerTier) {
+                    html += '<div class="blackhammer-note">블랙해머 ' + currentRelic.blackhammerTier + '강 이상 보유 시 적용</div>';
+                }
+            }
+            section.innerHTML = html;
+        }
+
+        function calculateAbility(relic, level) {
+            var text = relic.ability;
+            var abilityLevel = level === 10 ? 10 : level;
+            var effectiveLevel = abilityLevel - relic.abilityStart + 1;
+            if (effectiveLevel < 1) effectiveLevel = 1;
+            text = text.replace(/\{([^}]+)\}/g, function(match, baseVal) {
+                var base = parseFloat(baseVal);
+                var calculated = base * effectiveLevel;
+                return '<strong>' + (Math.round(calculated * 100) / 100) + '</strong>';
+            });
+            return text;
+        }
+    </script>
+</body>
+</html>
