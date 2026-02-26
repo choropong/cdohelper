@@ -134,12 +134,15 @@ function renderStats(level) {
     if (!currentRelic || currentRelic.baseStat.length === 0) { section.innerHTML = ""; return; }
     var statLevel = level === 10 ? 9 : level;
     var html = "<div class=\"info-section\"><h4>기본 스탯</h4>";
+    var negativeIsGood = ['부활시간'];
     for (var i = 0; i < currentRelic.baseStat.length; i++) {
         var stat = currentRelic.baseStat[i];
         var name = stat[0], base = stat[1], unit = stat[2] || "";
         var value = currentRelic.noStatMultiplier ? base : base * statLevel;
         var sign = value >= 0 ? "+" : "";
-        html += "<div class=\"stat-line\"><span class=\"label\">" + name + "</span><span class=\"value" + (value < 0 ? " negative" : "") + "\">" + sign + value + unit + "</span></div>";
+        var isNegativeGood = negativeIsGood.indexOf(name) !== -1;
+        var isNegative = isNegativeGood ? (value > 0) : (value < 0);
+        html += "<div class=\"stat-line\"><span class=\"label\">" + name + "</span><span class=\"value" + (isNegative ? " negative" : "") + "\">" + sign + value + unit + "</span></div>";
     }
     html += "</div>";
     section.innerHTML = html;
