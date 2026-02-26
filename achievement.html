@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>업적 목록 - 성지키기 헬퍼</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; line-height: 1.5; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px 15px; }
+        .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; background: transparent; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.85rem; text-decoration: none; margin-bottom: 20px; }
+        .back-btn:hover { background: rgba(255,255,255,0.05); }
+        header { text-align: center; margin-bottom: 30px; }
+        header h1 { font-size: 1.5rem; font-weight: 700; }
+        header p { font-size: 0.85rem; opacity: 0.5; margin-top: 8px; }
+
+        .category-section { margin-bottom: 28px; }
+        .category-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(167,139,250,0.15)); border: 1px solid rgba(167,139,250,0.3); border-radius: 12px; margin-bottom: 12px; }
+        .category-icon { font-size: 1.5rem; }
+        .category-title { font-size: 1.1rem; font-weight: 600; color: #a78bfa; }
+        .category-total { margin-left: auto; font-size: 0.9rem; color: #22c55e; font-weight: 600; background: rgba(34,197,94,0.15); padding: 4px 12px; border-radius: 20px; }
+
+        .achievement-list { display: flex; flex-direction: column; gap: 10px; }
+        .achievement-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s; }
+        .achievement-card:hover { background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.3); }
+        
+        .achievement-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .achievement-name { font-size: 0.95rem; font-weight: 600; }
+        .achievement-name span { font-size: 0.75rem; opacity: 0.4; font-weight: 400; margin-left: 6px; }
+        .achievement-total { font-size: 0.85rem; color: #fbbf24; font-weight: 600; background: rgba(251,191,36,0.15); padding: 4px 10px; border-radius: 6px; }
+
+        .achievement-steps { display: flex; flex-wrap: wrap; gap: 8px; }
+        .step-item { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 12px; min-width: 70px; }
+        .step-count { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
+        .step-value { font-size: 0.9rem; font-weight: 600; color: #22c55e; }
+        .step-arrow { color: rgba(255,255,255,0.2); font-size: 0.8rem; display: flex; align-items: center; }
+
+        .achievement-note { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 8px; padding: 8px 12px; background: rgba(255,255,255,0.02); border-radius: 6px; }
+
+        footer { text-align: center; padding: 30px 0 10px; opacity: 0.3; font-size: 0.75rem; }
+
+        @media (max-width: 600px) {
+            .step-item { min-width: 55px; padding: 6px 8px; }
+            .step-count { font-size: 0.65rem; }
+            .step-value { font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← 메인으로</a>
+        <header>
+            <h1>🏆 업적 목록</h1>
+            <p>업적을 달성하여 영구적인 버프를 얻으세요</p>
+        </header>
+        <div id="achievementContainer"></div>
+    </div>
+    <footer>© 2026 성지키기 헬퍼. All Rights Reserved.</footer>
+
+    <script>
+        var ACHIEVEMENTS = [
+            {
+                category: '공격력 증가',
+                icon: '⚔️',
+                items: [
+                    { name: '게임 플레이', eng: 'Play', counts: '1/10/20/50/100/300/500/800/1000/2000', values: [1,2,3,4,5,6,7,8,9,10], total: 55 },
+                    { name: '게임방 만들기', eng: 'Room', counts: '10/50/100/500/1000', values: [1,2,3,4,5], total: 15 },
+                    { name: '고블린 처치', eng: 'Goblin', counts: '100/500/1000/5000/10000', values: [1,2,3,4,5], total: 15 },
+                    { name: '킹보스 처치', eng: 'King', counts: '10/100/1000', values: [1,2,3], total: 6 },
+                    { name: '레이드 클리어', eng: 'Raid', counts: '10/100/1000', values: [1,2,3], total: 6 },
+                    { name: '협력전 플레이', eng: 'AOS', counts: '10/100/1000', values: [1,2,3], total: 6 },
+                    { name: '언데드보스', eng: 'Undead', counts: '10/100/1000', values: [1,2,3], total: 6 },
+                    { name: '유료 스킨', eng: '', counts: '공격력증가 유료스킨 한 캐릭당 공격력 2', values: [], total: '2×90 (180)' }
+                ]
+            },
+            {
+                category: '체력 증가',
+                icon: '❤️',
+                items: [
+                    { name: '오크 처치', eng: 'Orc', counts: '100/500/1000/5000/10000', values: [10,20,30,40,50], total: 150 },
+                    { name: '수정 강화', eng: 'Crystal', counts: '10/50/100/500/1000', values: [10,20,30,40,50], total: 150 },
+                    { name: '배구', eng: 'Volleyball', counts: '10/100/1000', values: [3,6,9], total: 18 },
+                    { name: '출석', eng: '', counts: '100', values: [100], total: 100 },
+                    { name: '유료스킨', eng: '', counts: '체력증가 유료스킨 한 캐릭당 체력 20', values: [], total: '20×60 (1200)' },
+                    { name: '성지 유튜버', eng: '', counts: '1', values: [100], total: 100 }
+                ]
+            },
+            {
+                category: '방어력 증가',
+                icon: '🛡️',
+                items: [
+                    { name: '엔트 처치', eng: 'Ent', counts: '10/100/1000', values: [1,2,3], total: 6 },
+                    { name: '드래곤 처치', eng: 'Dragon', counts: '10/100/1000', values: [1,2,3], total: 6 },
+                    { name: '방탈출 클리어', eng: 'Escape', counts: '10/100/1000', values: [1,2,3], total: 6 }
+                ]
+            },
+            {
+                category: '초당 체력회복 증가',
+                icon: '💚',
+                items: [
+                    { name: '우물', eng: 'Well', counts: '10/100/1000', values: [1,2,3], total: 6 },
+                    { name: '트롤 처치', eng: 'Troll', counts: '10/100/1000', values: [1,2,3], total: 6 },
+                    { name: '사신모드', eng: 'Reaper', counts: '10/100/1000', values: [1,2,3], total: 6 }
+                ]
+            },
+            {
+                category: '쿨타임 감소',
+                icon: '⏱️',
+                items: [
+                    { name: '광고 시청', eng: 'Ad', counts: '10/50/100/500/1000', values: [0.5,1,1.5,2,2.5], total: 7.5 },
+                    { name: '주술사 보스', eng: 'Shaman', counts: '10/100/1000', values: [0.5,1,1.5], total: 3 }
+                ]
+            },
+            {
+                category: '초당 골드 획득증가',
+                icon: '💰',
+                items: [
+                    { name: '인앱결제', eng: 'Inapp', counts: '1/5', values: [1,2], total: 3 },
+                    { name: '룬 구매', eng: 'Rune', counts: '10/50/100/500', values: [1,2,3,4], total: 10 }
+                ]
+            },
+            {
+                category: '경험치 증가',
+                icon: '📈',
+                items: [
+                    { name: '디펜스 클리어', eng: 'Clear', counts: '1/10/20/50/100/300/500/800/1000/2000', values: [0.5,1,1.5,2,2.5,3,3.5,4,4.5,5], total: 27.5 },
+                    { name: '타워 건설', eng: 'Tower', counts: '1/10/50/100/500/1000', values: [1,2,3,4,5], total: 15 }
+                ]
+            },
+            {
+                category: '공격 속도 증가',
+                icon: '💨',
+                items: [
+                    { name: '오우거 처치', eng: 'Oger', counts: '10/100/1000', values: [1,2,3], total: 6 }
+                ]
+            },
+            {
+                category: '크리티컬 확률증가',
+                icon: '🎯',
+                items: [
+                    { name: '상자 개봉', eng: 'Token', counts: '10/50/100/500/1000', values: [1,2,3,4,5], total: 15 }
+                ]
+            },
+            {
+                category: '흡혈 증가',
+                icon: '🧛',
+                items: [
+                    { name: '늑대 처치', eng: 'Wolf', counts: '100/500/1000/5000/10000', values: [0.2,0.4,0.6,0.8,1], total: 3 },
+                    { name: '공성 처치', eng: 'Clock', counts: '10/100/1000', values: [0.1,0.2,0.3], total: 0.6 }
+                ]
+            },
+            {
+                category: '부활시간 감소',
+                icon: '⚡',
+                items: [
+                    { name: '죽음', eng: 'Death', counts: '1/10/50/100/300/500/800/1000/2000', values: [0.5,1,1.5,2,2.5,3,3.5,4,4.5,5], total: 27.5 }
+                ]
+            }
+        ];
+
+        function renderAchievements() {
+            var container = document.getElementById('achievementContainer');
+            var html = '';
+
+            for (var i = 0; i < ACHIEVEMENTS.length; i++) {
+                var cat = ACHIEVEMENTS[i];
+                html += '<div class="category-section">';
+                html += '<div class="category-header">';
+                html += '<span class="category-icon">' + cat.icon + '</span>';
+                html += '<span class="category-title">' + cat.category + '</span>';
+                html += '</div>';
+
+                html += '<div class="achievement-list">';
+
+                for (var j = 0; j < cat.items.length; j++) {
+                    var item = cat.items[j];
+                    var nameHtml = item.name;
+                    if (item.eng) nameHtml += '<span>(' + item.eng + ')</span>';
+
+                    html += '<div class="achievement-card">';
+                    html += '<div class="achievement-header">';
+                    html += '<div class="achievement-name">' + nameHtml + '</div>';
+                    html += '<div class="achievement-total">합계: ' + item.total + '</div>';
+                    html += '</div>';
+
+                    if (item.values.length > 0) {
+                        var counts = item.counts.split('/');
+                        html += '<div class="achievement-steps">';
+                        for (var k = 0; k < item.values.length; k++) {
+                            if (k > 0) html += '<span class="step-arrow">→</span>';
+                            html += '<div class="step-item">';
+                            html += '<div class="step-count">' + counts[k] + '회</div>';
+                            html += '<div class="step-value">+' + item.values[k] + '</div>';
+                            html += '</div>';
+                        }
+                        html += '</div>';
+                    } else {
+                        html += '<div class="achievement-note">' + item.counts + '</div>';
+                    }
+
+                    html += '</div>';
+                }
+
+                html += '</div></div>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', renderAchievements);
+    </script>
+</body>
+</html>
