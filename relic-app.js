@@ -35,7 +35,11 @@ function renderRelics(filter) {
             item.className = "relic-item";
             var imgDiv = document.createElement("div");
             imgDiv.className = "relic-img";
-            imgDiv.textContent = relic.name.substring(0, 2);
+            var img = document.createElement("img");
+            img.src = "images/" + relic.name + ".png";
+            img.alt = relic.name;
+            img.onerror = function() { this.style.display = "none"; this.parentNode.textContent = this.alt.substring(0, 2); };
+            imgDiv.appendChild(img);
             var nameDiv = document.createElement("div");
             nameDiv.className = "relic-name";
             nameDiv.textContent = relic.name;
@@ -73,7 +77,13 @@ function openModal(relic) {
     currentLevel = 1;
     document.getElementById("modalName").textContent = relic.name;
     document.getElementById("modalTier").textContent = relic.tier;
-    document.getElementById("modalImgPlaceholder").textContent = relic.name.substring(0, 2);
+    var placeholder = document.getElementById("modalImgPlaceholder");
+    var modalImg = document.getElementById("modalImg");
+    placeholder.textContent = relic.name.substring(0, 2);
+    modalImg.src = "images/" + relic.name + ".png";
+    modalImg.style.display = "block";
+    modalImg.onerror = function() { this.style.display = "none"; placeholder.style.display = "block"; };
+    modalImg.onload = function() { placeholder.style.display = "none"; };
     var overlay = document.getElementById("modalOverlay");
     if (relic.customAbility === "blackhammer") {
         overlay.classList.add("blackhammer-modal");
