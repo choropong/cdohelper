@@ -184,7 +184,7 @@ const RELIC_DATA = [
     { id: 'tyrfing', name: '티르빙', tier: '레이드 9단계', blackhammerTier: 7,
       baseStat: [['체력', -4, '%'], ['초당체력회복', -1]],
       ability: '스킬 데미지 증가 {4}%',
-      abilityStart: 1, noStatMultiplier: true },
+      abilityStart: 1 },
     { id: 'gaebolg', name: '게볼그', tier: '레이드 9단계', blackhammerTier: 7,
       baseStat: [['크리티컬확률', 1, '%']],
       ability: '랜서가 장착 시 모든 스킬 데미지 {6}% 증가',

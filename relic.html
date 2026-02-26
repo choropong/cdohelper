@@ -7,203 +7,81 @@
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
-            min-height: 100vh;
-            line-height: 1.5;
-        }
+        body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; line-height: 1.5; }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px 15px; }
-        .back-btn {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 8px 12px; background: transparent;
-            border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
-            color: #fff; font-size: 0.85rem; text-decoration: none; margin-bottom: 20px;
-        }
+        .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; background: transparent; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.85rem; text-decoration: none; margin-bottom: 20px; }
         .back-btn:hover { background: rgba(255,255,255,0.05); }
         header { text-align: center; margin-bottom: 20px; }
         header h1 { font-size: 1.5rem; font-weight: 700; }
-        .search-input {
-            width: 100%; max-width: 300px; display: block; margin: 0 auto 25px;
-            padding: 10px 15px; background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
-            color: #fff; font-family: inherit; font-size: 0.95rem; outline: none;
-        }
+        .search-input { width: 100%; max-width: 300px; display: block; margin: 0 auto 25px; padding: 10px 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-family: inherit; font-size: 0.95rem; outline: none; }
         .search-input::placeholder { color: rgba(255,255,255,0.4); }
         .search-input:focus { border-color: #6366f1; }
-
-        /* 카테고리 섹션 */
         .category-section { margin-bottom: 30px; }
-        .category-title {
-            font-size: 1rem; font-weight: 600; margin-bottom: 12px;
-            padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.15);
-            color: #a78bfa;
-        }
-
-        /* 유물 그리드 */
-        .relic-grid {
-            display: flex; flex-wrap: wrap; gap: 8px;
-        }
-        .relic-item {
-            width: calc(16.666% - 7px);
-            display: flex; align-items: center; gap: 10px;
-            padding: 12px; background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08); border-radius: 10px;
-            cursor: pointer; transition: all 0.2s;
-        }
-        .relic-item:hover {
-            background: rgba(255,255,255,0.08);
-            border-color: rgba(255,255,255,0.2);
-        }
-        .relic-item.owned { border-color: #22c55e; background: rgba(34,197,94,0.08); }
-        .relic-item .relic-img {
-            width: 56px; height: 56px; border-radius: 8px; flex-shrink: 0;
-            background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(167,139,250,0.2));
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.75rem; color: rgba(255,255,255,0.5);
-            overflow: hidden;
-        }
-        .relic-item .relic-img img {
-            width: 100%; height: 100%; object-fit: cover;
-        }
-        .relic-item .relic-info { flex: 1; min-width: 0; }
-        .relic-item .relic-name {
-            font-size: 0.85rem; font-weight: 500;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .relic-item .relic-level {
-            font-size: 0.75rem; color: #22c55e; margin-top: 2px;
-        }
-        .relic-item .relic-level.not-owned {
-            color: rgba(255,255,255,0.4);
-        }
-
-        /* 반응형 */
-        @media (max-width: 1200px) {
-            .relic-item { width: calc(20% - 7px); }
-        }
-        @media (max-width: 1000px) {
-            .relic-item { width: calc(25% - 6px); }
-        }
-        @media (max-width: 700px) {
-            .relic-item { width: calc(33.333% - 6px); }
-        }
-        @media (max-width: 500px) {
-            .relic-item { width: calc(50% - 4px); }
-        }
-
-        /* 모달 */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.8); z-index: 1000;
-            align-items: center; justify-content: center; padding: 20px;
-        }
+        .category-title { font-size: 1rem; font-weight: 600; margin-bottom: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.15); color: #a78bfa; }
+        .relic-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+        .relic-item { width: calc(16.666% - 7px); display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; cursor: pointer; transition: all 0.2s; }
+        .relic-item:hover { background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.4); transform: translateY(-2px); }
+        .relic-item .relic-img { width: 52px; height: 52px; border-radius: 8px; flex-shrink: 0; background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(167,139,250,0.2)); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: rgba(255,255,255,0.5); overflow: hidden; }
+        .relic-item .relic-img img { width: 100%; height: 100%; object-fit: cover; }
+        .relic-item .relic-name { flex: 1; min-width: 0; font-size: 0.85rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        @media (max-width: 1200px) { .relic-item { width: calc(20% - 7px); } }
+        @media (max-width: 1000px) { .relic-item { width: calc(25% - 6px); } }
+        @media (max-width: 700px) { .relic-item { width: calc(33.333% - 6px); } }
+        @media (max-width: 500px) { .relic-item { width: calc(50% - 4px); } }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
-        .modal {
-            width: 100%; max-width: 450px; max-height: 90vh; overflow-y: auto;
-            background: #1a1a1a; border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-        }
-        .modal-header {
-            display: flex; align-items: center; gap: 12px;
-            padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .modal-img-wrap {
-            width: 60px; height: 60px; border-radius: 10px;
-            background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(167,139,250,0.3));
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden; flex-shrink: 0;
-        }
-        .modal-img-placeholder { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+        .modal { width: 100%; max-width: 420px; max-height: 90vh; overflow-y: auto; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; }
+        .modal-header { display: flex; align-items: center; gap: 14px; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .modal-img-wrap { width: 64px; height: 64px; border-radius: 12px; background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(167,139,250,0.3)); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+        .modal-img-placeholder { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
         .modal-img { width: 100%; height: 100%; object-fit: cover; display: none; }
         .modal-title-area { flex: 1; }
-        .modal-title-area h2 { font-size: 1.2rem; font-weight: 600; }
-        .modal-title-area span { font-size: 0.8rem; opacity: 0.6; }
-        .modal-close {
-            width: 36px; height: 36px; border: none; border-radius: 50%;
-            background: rgba(255,255,255,0.1); color: #fff;
-            font-size: 1.5rem; cursor: pointer; line-height: 1;
-        }
+        .modal-title-area h2 { font-size: 1.25rem; font-weight: 600; }
+        .modal-title-area span { font-size: 0.8rem; opacity: 0.5; }
+        .modal-close { width: 36px; height: 36px; border: none; border-radius: 50%; background: rgba(255,255,255,0.1); color: #fff; font-size: 1.5rem; cursor: pointer; line-height: 1; }
         .modal-close:hover { background: rgba(255,255,255,0.2); }
-        .modal-body { padding: 16px; }
-
-        /* 내 레벨 섹션 */
-        .my-level-section {
-            background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
-            border-radius: 10px; padding: 12px; margin-bottom: 16px;
-        }
-        .my-level-section label { font-size: 0.85rem; color: #22c55e; display: block; margin-bottom: 8px; }
-        .my-level-control { display: flex; align-items: center; gap: 10px; }
-        .my-level-btn {
-            width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 8px; background: rgba(255,255,255,0.05);
-            color: #fff; font-size: 1.2rem; cursor: pointer;
-        }
-        .my-level-btn:hover { background: rgba(255,255,255,0.1); }
-        .my-level-display { font-size: 1.1rem; font-weight: 600; min-width: 50px; text-align: center; }
-
-        /* 미리보기 슬라이더 */
-        .level-slider-section {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px; padding: 12px; margin-bottom: 16px;
-        }
-        .level-slider-section label { font-size: 0.85rem; opacity: 0.7; display: block; margin-bottom: 10px; }
-        .level-slider {
-            width: 100%; height: 8px; border-radius: 4px;
-            background: rgba(255,255,255,0.1); outline: none;
-            -webkit-appearance: none; appearance: none;
-        }
-        .level-slider::-webkit-slider-thumb {
-            -webkit-appearance: none; appearance: none;
-            width: 20px; height: 20px; border-radius: 50%;
-            background: #6366f1; cursor: pointer;
-        }
-        .slider-labels {
-            display: flex; justify-content: space-between;
-            margin-top: 6px; font-size: 0.7rem; opacity: 0.5;
-        }
-        .preview-level {
-            text-align: center; margin-top: 8px;
-            font-size: 1rem; font-weight: 600; color: #6366f1;
-        }
-        .preview-level.blackhammer { color: #a78bfa; }
-
-        /* 스탯/능력 섹션 */
-        .stats-section, .ability-section {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px; padding: 12px; margin-bottom: 12px;
-        }
-        .stats-section h4, .ability-section h4 {
-            font-size: 0.8rem; opacity: 0.6; margin-bottom: 8px;
-        }
-        .stat-line {
-            display: flex; justify-content: space-between;
-            padding: 4px 0; font-size: 0.9rem;
-        }
+        .modal-body { padding: 20px; }
+        .level-selector { margin-bottom: 20px; }
+        .level-display { text-align: center; margin-bottom: 12px; }
+        .level-display span { font-size: 1.3rem; font-weight: 700; color: #a78bfa; }
+        .level-slider { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.1); outline: none; -webkit-appearance: none; cursor: pointer; }
+        .level-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #a78bfa); cursor: pointer; box-shadow: 0 2px 8px rgba(99,102,241,0.5); }
+        .level-slider::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #a78bfa); cursor: pointer; border: none; }
+        .level-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.8rem; opacity: 0.5; }
+        .level-btn { flex: 1; min-width: calc(20% - 5px); padding: 10px 0; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; background: rgba(255,255,255,0.03); color: #fff; font-family: inherit; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+        .level-btn:hover { background: rgba(99,102,241,0.2); border-color: rgba(99,102,241,0.4); }
+        .level-btn.active { background: #6366f1; border-color: #6366f1; }
+        .level-btn.blackhammer { background: linear-gradient(135deg, #6366f1, #a78bfa); border-color: #a78bfa; }
+        .info-section { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+        .info-section h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.5; margin-bottom: 10px; }
+        .stat-line { display: flex; justify-content: space-between; padding: 6px 0; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .stat-line:last-child { border-bottom: none; }
         .stat-line .label { opacity: 0.8; }
-        .stat-line .value { color: #22c55e; font-weight: 500; }
+        .stat-line .value { color: #22c55e; font-weight: 600; }
         .stat-line .value.negative { color: #ef4444; }
-        .ability-text {
-            font-size: 0.9rem; line-height: 1.6; color: #fbbf24;
-        }
+        .ability-text { font-size: 0.95rem; line-height: 1.7; color: #fbbf24; white-space: pre-line; }
         .ability-text.inactive { color: rgba(255,255,255,0.4); }
-        .blackhammer-note {
-            margin-top: 8px; padding-top: 8px;
-            border-top: 1px dashed rgba(167,139,250,0.3);
-            font-size: 0.8rem; color: #a78bfa;
-        }
-
-        footer {
-            text-align: center; padding: 30px 0 10px;
-            opacity: 0.3; font-size: 0.75rem;
-        }
+        .blackhammer-note { margin-top: 12px; padding: 10px; background: rgba(167,139,250,0.1); border-radius: 8px; font-size: 0.8rem; color: #a78bfa; }
+        .blackhammer-modal .modal { max-width: 500px; }
+        .blackhammer-info { padding: 0; }
+        .blackhammer-desc { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(167,139,250,0.1)); border: 1px solid rgba(167,139,250,0.3); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+        .blackhammer-desc h4 { color: #a78bfa; margin-bottom: 8px; font-size: 0.9rem; }
+        .blackhammer-desc p { font-size: 0.9rem; line-height: 1.6; opacity: 0.9; }
+        .blackhammer-9plus { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); border-radius: 10px; padding: 12px; margin-bottom: 16px; }
+        .blackhammer-9plus strong { color: #fbbf24; }
+        .tier-section { margin-bottom: 12px; }
+        .tier-header { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-bottom: 8px; }
+        .tier-badge { background: #6366f1; color: #fff; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .tier-header span { font-size: 0.85rem; opacity: 0.7; }
+        .tier-relics { display: flex; flex-wrap: wrap; gap: 6px; padding-left: 8px; }
+        .tier-relic { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; }
+        footer { text-align: center; padding: 30px 0 10px; opacity: 0.3; font-size: 0.75rem; }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="index.html" class="back-btn">← 메인으로</a>
-        <header><h1>🏺 유물 목록</h1></header>
+        <a href="index.html" class="back-btn"> 메인으로</a>
+        <header><h1> 유물 목록</h1></header>
         <input type="text" class="search-input" id="searchInput" placeholder="유물 검색...">
         <div id="relicContainer"></div>
     </div>
@@ -218,29 +96,16 @@
                     <h2 id="modalName"></h2>
                     <span id="modalTier"></span>
                 </div>
-                <button class="modal-close" id="modalClose">×</button>
+                <button class="modal-close" id="modalClose"></button>
             </div>
-            <div class="modal-body">
-                <div class="my-level-section">
-                    <label>내 유물 레벨</label>
-                    <div class="my-level-control">
-                        <button class="my-level-btn" id="myLevelMinus">-</button>
-                        <span class="my-level-display" id="myLevelDisplay">0강</span>
-                        <button class="my-level-btn" id="myLevelPlus">+</button>
-                    </div>
-                </div>
-                <div class="level-slider-section">
-                    <label>능력치 미리보기</label>
-                    <input type="range" class="level-slider" id="levelSlider" min="0" max="10" value="0">
-                    <div class="slider-labels"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>9+1</span></div>
-                    <div class="preview-level" id="previewLevel">0강</div>
-                </div>
-                <div class="stats-section" id="statsSection"></div>
-                <div class="ability-section" id="abilitySection"></div>
+            <div class="modal-body" id="modalBody">
+                <div class="level-selector" id="levelSelector"></div>
+                <div id="statsSection"></div>
+                <div class="info-section" id="abilitySection"></div>
             </div>
         </div>
     </div>
-    <footer>© 2026 성지키기 헬퍼. All Rights Reserved.</footer>
+    <footer> 2026 성지키기 헬퍼. All Rights Reserved.</footer>
     <script src="relic-data.js"></script>
     <script src="relic-app.js"></script>
 </body>
