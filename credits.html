@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>크레딧 - 성지키기 헬퍼</title>
+    
+    <meta name="description" content="성지키기 헬퍼 크레딧 및 출처 - Made by 얼음(짭)">
+    <meta name="author" content="얼음(짭)">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="크레딧 - 성지키기 헬퍼">
+    <meta property="og:description" content="Made by 얼음(짭)">
+    <meta property="og:image" content="images/icon.png">
+    <meta property="og:locale" content="ko_KR">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="크레딧 - 성지키기 헬퍼">
+    <meta name="twitter:description" content="Made by 얼음(짭)">
+    <meta name="twitter:image" content="images/icon.png">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <link rel="manifest" href="favicons/site.webmanifest">
+    <link rel="shortcut icon" href="favicons/favicon.ico">
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-main: #0a0a0a;
+            --bg-card: rgba(255,255,255,0.03);
+            --bg-hover: rgba(255,255,255,0.06);
+            --border: rgba(255,255,255,0.1);
+            --border-light: rgba(255,255,255,0.06);
+            --primary: #6366f1;
+            --text: #fff;
+            --text-muted: rgba(255,255,255,0.5);
+            --text-dim: rgba(255,255,255,0.35);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Pretendard', -apple-system, sans-serif; background: var(--bg-main); color: var(--text); min-height: 100vh; line-height: 1.6; }
+        .container { max-width: 700px; margin: 0 auto; padding: 30px 20px 60px; }
+        
+        .back-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: transparent; border: 1px solid var(--border); border-radius: 8px; color: var(--text); font: inherit; font-size: 0.9rem; cursor: pointer; text-decoration: none; margin-bottom: 20px; transition: all 0.2s; }
+        .back-btn:hover { background: var(--bg-hover); border-color: rgba(255,255,255,0.2); }
+        
+        header { text-align: center; margin-bottom: 40px; padding: 30px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); }
+        header h1 { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, #fff, #a0a0a0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 8px; }
+        
+        .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+        .section h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .section h2 .icon { font-size: 1.3rem; }
+        
+        .credit-item { padding: 16px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid var(--border-light); margin-bottom: 12px; }
+        .credit-item:last-child { margin-bottom: 0; }
+        .credit-item .label { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 4px; font-weight: 600; }
+        .credit-item .value { font-size: 1rem; font-weight: 600; }
+        .credit-item .desc { font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; }
+        
+        .source-list { display: flex; flex-direction: column; gap: 12px; }
+        .source-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid var(--border-light); transition: all 0.2s; }
+        .source-item:hover { background: var(--bg-hover); border-color: var(--border); }
+        .source-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+        .source-info { flex: 1; }
+        .source-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
+        .source-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
+        .source-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--primary); text-decoration: none; font-weight: 500; }
+        .source-link:hover { text-decoration: underline; }
+        
+        .footer { text-align: center; padding-top: 40px; font-size: 0.75rem; color: var(--text-dim); }
+        .footer a { color: var(--text-dim); text-decoration: none; }
+        .footer a:hover { color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← 메인으로</a>
+        
+        <header>
+            <h1>📜 크레딧</h1>
+            <p>도움 주신 분들</p>
+        </header>
+
+        <!-- 저작권 정보 -->
+        <div class="section">
+            <h2><span class="icon">©</span> 저작권</h2>
+            <div class="credit-item">
+                <div class="label">사이트 제작</div>
+                <div class="value">얼음짭</div>
+            </div>
+            <div class="credit-item">
+                <div class="label">게임 및 이미지 저작권</div>
+                <div class="value">Black Hammer</div>
+                <div class="desc">성지키기 게임 및 게임 내 모든 이미지의 저작권은 Black Hammer에 있습니다.</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="icon">📊</span> 자료 출처</h2>
+            <div class="source-list">
+                <div class="source-item">
+                    <span class="source-icon">👻</span>
+                    <div class="source-info">
+                        <div class="source-title">영혼 확률표</div>
+                        <div class="source-desc">출처: 뇽이자리님 카페 게시글 [유물 , 날개 및 악세서리 영혼확률표]</div>
+                        <a href="https://cafe.naver.com/4pcastle/97211" target="_blank" class="source-link">📄 원본 카페글 →</a>
+                    </div>
+                </div>
+                <div class="source-item">
+                    <span class="source-icon">🏆</span>
+                    <div class="source-info">
+                        <div class="source-title">업적표</div>
+                        <div class="source-desc">출처: 뇽이자리님 카페 게시글 [업적표 리뉴얼]</div>
+                        <a href="https://cafe.naver.com/4pcastle/97659" target="_blank" class="source-link">📄 원본 카페글 →</a>
+                    </div>
+                </div>
+                <div class="source-item">
+                    <span class="source-icon">🎖️</span>
+                    <div class="source-info">
+                        <div class="source-title">엠블럼표</div>
+                        <div class="source-desc">출처: 뇽이자리님 카페 게시글 [엠블럼]</div>
+                        <a href="https://cafe.naver.com/4pcastle/99781" target="_blank" class="source-link">📄 원본 카페글 →</a>
+                    </div>
+                </div>
+                <div class="source-item">
+                    <span class="source-icon">🐾</span>
+                    <div class="source-info">
+                        <div class="source-title">펫 확률표</div>
+                        <div class="source-desc">출처: 성지키기 공식 사이트 확률표</div>
+                        <a href="https://blackhammerco.com/pet_chance.html" target="_blank" class="source-link">📄 원본 사이트 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 문의 -->
+        <div class="section">
+            <h2><span class="icon">💬</span> 문의</h2>
+            <div class="credit-item">
+                <div class="desc">아래 카페 게시글 댓글 또는 choco.moxql@gmail.com으로 메일 부탁드리겠습니다 (_ _)</div>
+                <a href="https://cafe.naver.com/4pcastle/99832" target="_blank" class="source-link">📄 카페 게시글 →</a>
+            </div>
+        </div>
+
+        <div class="footer">© 2026 얼음짭 · <a href="credits.html">크레딧</a></div>
+    </div>
+</body>
+</html>
