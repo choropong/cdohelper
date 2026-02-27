@@ -117,12 +117,15 @@
         /* Simulator Styles */
         .sim-info-box { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(167,139,250,0.05)); border: 1px solid rgba(167,139,250,0.2); border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; }
         .prob-grid { display: grid; grid-template-columns: repeat(9, 1fr); gap: 6px; margin-bottom: 8px; }
-        .prob-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 4px; text-align: center; transition: all 0.2s; }
+        .prob-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 8px 4px; text-align: center; transition: all 0.2s; }
         .prob-item.current { background: rgba(99,102,241,0.2); border-color: #6366f1; }
         .prob-item.done { background: rgba(34,197,94,0.15); border-color: rgba(34,197,94,0.3); }
         .prob-item.done .prob-value { color: #22c55e; }
-        .prob-level { font-size: 0.7rem; opacity: 0.5; margin-bottom: 4px; }
-        .prob-value { font-size: 0.85rem; font-weight: 600; color: #a78bfa; }
+        .prob-level { font-size: 0.7rem; opacity: 0.5; margin-bottom: 3px; }
+        .prob-value { font-size: 0.8rem; font-weight: 600; color: #a78bfa; margin-bottom: 4px; }
+        .prob-cost { display: flex; flex-direction: column; gap: 1px; align-items: center; }
+        .prob-cost-row { display: flex; align-items: center; justify-content: center; gap: 2px; font-size: 0.65rem; color: rgba(255,255,255,0.7); }
+        .prob-cost-row img { width: 12px; height: 12px; }
         .prob-note { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-align: center; }
 
         .sim-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; max-width: 480px; margin: 0 auto; }
@@ -183,11 +186,30 @@
         .sim-history-item .success-icon { color: #22c55e; }
         .sim-history-empty { text-align: center; padding: 20px; color: rgba(255,255,255,0.4); font-size: 0.85rem; }
 
+        /* Cost Display */
+        .sim-cost { margin-bottom: 16px; }
+        .sim-cost-title { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-bottom: 8px; text-align: center; }
+        .sim-cost-current { display: flex; justify-content: center; gap: 16px; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; margin-bottom: 8px; }
+        .sim-cost-item { display: flex; align-items: center; gap: 6px; font-size: 0.9rem; font-weight: 500; }
+        .sim-cost-item img { width: 20px; height: 20px; }
+        .sim-cost-item.mithril { color: #60a5fa; }
+        .sim-cost-item.adamantium { color: #a78bfa; }
+        .sim-cost-item.ether { color: #f472b6; }
+
+        .sim-total-cost { background: linear-gradient(135deg, rgba(251,191,36,0.1), rgba(251,191,36,0.05)); border: 1px solid rgba(251,191,36,0.2); border-radius: 10px; padding: 12px 16px; }
+        .sim-total-title { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin-bottom: 8px; text-align: center; }
+        .sim-total-grid { display: flex; justify-content: center; gap: 20px; }
+        .sim-total-item { display: flex; align-items: center; gap: 5px; font-size: 0.85rem; font-weight: 600; }
+        .sim-total-item img { width: 18px; height: 18px; }
+
         @media (max-width: 600px) {
             .prob-grid { grid-template-columns: repeat(3, 1fr); }
             .sim-level { font-size: 2.8rem; min-width: 100px; }
             .sim-level-btn { width: 32px; height: 32px; font-size: 1rem; }
             .sim-history-grid { grid-template-columns: repeat(3, 1fr); }
+            .sim-cost-current { gap: 12px; padding: 10px; }
+            .sim-cost-item { font-size: 0.8rem; }
+            .sim-cost-item img { width: 18px; height: 18px; }
         }
     </style>
 </head>
@@ -215,15 +237,15 @@
         <div class="tab-content" id="tab-simulator">
             <div class="sim-info-box">
                 <div class="prob-grid" id="probGrid">
-                    <div class="prob-item" data-level="0"><div class="prob-level">0→1</div><div class="prob-value">100%</div></div>
-                    <div class="prob-item" data-level="1"><div class="prob-level">1→2</div><div class="prob-value">90%</div></div>
-                    <div class="prob-item" data-level="2"><div class="prob-level">2→3</div><div class="prob-value">80%</div></div>
-                    <div class="prob-item" data-level="3"><div class="prob-level">3→4</div><div class="prob-value">70%</div></div>
-                    <div class="prob-item" data-level="4"><div class="prob-level">4→5</div><div class="prob-value">60%</div></div>
-                    <div class="prob-item" data-level="5"><div class="prob-level">5→6</div><div class="prob-value">50%</div></div>
-                    <div class="prob-item" data-level="6"><div class="prob-level">6→7</div><div class="prob-value">40%</div></div>
-                    <div class="prob-item" data-level="7"><div class="prob-level">7→8</div><div class="prob-value">30%</div></div>
-                    <div class="prob-item" data-level="8"><div class="prob-level">8→9</div><div class="prob-value">20%</div></div>
+                    <div class="prob-item" data-level="0"><div class="prob-level">0→1</div><div class="prob-value">100%</div><div class="prob-cost"><div class="prob-cost-row"><img src="images/미스릴.png">40</div><div class="prob-cost-row"><img src="images/아다만티움.png">10</div></div></div>
+                    <div class="prob-item" data-level="1"><div class="prob-level">1→2</div><div class="prob-value">90%</div><div class="prob-cost"><div class="prob-cost-row"><img src="images/미스릴.png">30</div><div class="prob-cost-row"><img src="images/아다만티움.png">20</div></div></div>
+                    <div class="prob-item" data-level="2"><div class="prob-level">2→3</div><div class="prob-value">80%</div><div class="prob-cost"><div class="prob-cost-row"><img src="images/미스릴.png">20</div><div class="prob-cost-row"><img src="images/아다만티움.png">30</div></div></div>
+                    <div class="prob-item" data-level="3"><div class="prob-level">3→4</div><div class="prob-value">70%</div><div class="prob-cost"><div class="prob-cost-row"><img src="images/미스릴.png">10</div><div class="prob-cost-row"><img src="images/아다만티움.png">40</div></div></div>
+                    <div class="prob-item" data-level="4"><div class="prob-level">4→5</div><div class="prob-value">60%</div><div class="prob-cost"><div class="prob-cost-row"><img src="images/아다만티움.png">40</div><div class="prob-cost-row"><img src="images/에테르.png">10</div></div></div>
+                    <div class="prob-item" data-level="5"><div class="prob-level">5→6</div><div class="prob-value">50%</div><div class="prob-cost"><div class="prob-cost-row"><img src="images/아다만티움.png">30</div><div class="prob-cost-row"><img src="images/에테르.png">20</div></div></div>
+                    <div class="prob-item" data-level="6"><div class="prob-level">6→7</div><div class="prob-value">40%</div><div class="prob-cost"><div class="prob-cost-row"><img src="images/아다만티움.png">20</div><div class="prob-cost-row"><img src="images/에테르.png">30</div></div></div>
+                    <div class="prob-item" data-level="7"><div class="prob-level">7→8</div><div class="prob-value">30%</div><div class="prob-cost"><div class="prob-cost-row"><img src="images/아다만티움.png">10</div><div class="prob-cost-row"><img src="images/에테르.png">40</div></div></div>
+                    <div class="prob-item" data-level="8"><div class="prob-level">8→9</div><div class="prob-value">20%</div><div class="prob-cost"><div class="prob-cost-row"><img src="images/아다만티움.png">50</div><div class="prob-cost-row"><img src="images/에테르.png">50</div></div></div>
                 </div>
                 <div class="prob-note">실패 시 +2% 확률 보정 (최대 100%)</div>
             </div>
@@ -236,6 +258,12 @@
                         <button class="sim-level-btn" id="levelUpBtn" onclick="adjustLevel(1)">+</button>
                     </div>
                     <div class="sim-status" id="simStatus">강화를 시작하세요</div>
+                </div>
+
+                <!-- Current Enhancement Cost -->
+                <div class="sim-cost" id="simCostSection">
+                    <div class="sim-cost-title">다음 강화 비용</div>
+                    <div class="sim-cost-current" id="simCostCurrent"></div>
                 </div>
 
                 <div class="sim-progress">
@@ -272,6 +300,16 @@
                     <div class="sim-stat-item">
                         <div class="label">실패</div>
                         <div class="value fail-color" id="simFail">0</div>
+                    </div>
+                </div>
+
+                <!-- Total Cost -->
+                <div class="sim-total-cost">
+                    <div class="sim-total-title">총 소모 광석</div>
+                    <div class="sim-total-grid">
+                        <div class="sim-total-item mithril"><img src="images/미스릴.png"><span id="totalMithril">0</span></div>
+                        <div class="sim-total-item adamantium"><img src="images/아다만티움.png"><span id="totalAdamantium">0</span></div>
+                        <div class="sim-total-item ether"><img src="images/에테르.png"><span id="totalEther">0</span></div>
                     </div>
                 </div>
 
@@ -326,10 +364,28 @@
         var simFail = 0;
         var simBonus = 0;
         var baseProbs = [100, 90, 80, 70, 60, 50, 40, 30, 20];
-        var failHistory = [0, 0, 0, 0, 0, 0, 0, 0, 0]; // 각 강화 단계별 실패 횟수
+        var failHistory = [0, 0, 0, 0, 0, 0, 0, 0, 0];
         var autoMode = false;
         var autoInterval = null;
         var targetLevel = 9;
+
+        // 광석 소모량 데이터 [미스릴, 아다만티움, 에테르]
+        var enhanceCosts = [
+            [40, 10, 0],   // 0→1
+            [30, 20, 0],   // 1→2
+            [20, 30, 0],   // 2→3
+            [10, 40, 0],   // 3→4
+            [0, 40, 10],   // 4→5
+            [0, 30, 20],   // 5→6
+            [0, 20, 30],   // 6→7
+            [0, 10, 40],   // 7→8
+            [0, 50, 50]    // 8→9
+        ];
+
+        // 총 소모 광석
+        var totalMithril = 0;
+        var totalAdamantium = 0;
+        var totalEther = 0;
 
         function getBaseProb(level) {
             return baseProbs[level] || 0;
@@ -337,6 +393,13 @@
 
         function getCurrentProb() {
             return Math.min(100, getBaseProb(simLevel) + simBonus);
+        }
+
+        function getCostAtLevel(level) {
+            if (level >= 0 && level < 9) {
+                return enhanceCosts[level];
+            }
+            return [0, 0, 0];
         }
 
         function updateProbGrid() {
@@ -350,6 +413,45 @@
                     item.classList.add('current');
                 }
             });
+        }
+
+        function updateCurrentCost() {
+            var costSection = document.getElementById('simCostSection');
+            var costCurrent = document.getElementById('simCostCurrent');
+            
+            if (simLevel >= 9) {
+                costSection.style.display = 'none';
+                return;
+            }
+            
+            costSection.style.display = 'block';
+            var cost = getCostAtLevel(simLevel);
+            var html = '';
+            
+            if (cost[0] > 0) {
+                html += '<div class="sim-cost-item mithril"><img src="images/미스릴.png">' + cost[0] + '</div>';
+            }
+            if (cost[1] > 0) {
+                html += '<div class="sim-cost-item adamantium"><img src="images/아다만티움.png">' + cost[1] + '</div>';
+            }
+            if (cost[2] > 0) {
+                html += '<div class="sim-cost-item ether"><img src="images/에테르.png">' + cost[2] + '</div>';
+            }
+            
+            costCurrent.innerHTML = html;
+        }
+
+        function updateTotalCost() {
+            document.getElementById('totalMithril').textContent = totalMithril.toLocaleString();
+            document.getElementById('totalAdamantium').textContent = totalAdamantium.toLocaleString();
+            document.getElementById('totalEther').textContent = totalEther.toLocaleString();
+        }
+
+        function addCost(level) {
+            var cost = getCostAtLevel(level);
+            totalMithril += cost[0];
+            totalAdamantium += cost[1];
+            totalEther += cost[2];
         }
 
         function updateSimUI() {
@@ -381,6 +483,8 @@
             }
             
             updateProbGrid();
+            updateCurrentCost();
+            updateTotalCost();
             updateHistory();
         }
 
@@ -435,7 +539,6 @@
             var newLevel = simLevel + delta;
             if (newLevel < 0 || newLevel > 9) return;
             
-            // 레벨 내리면 해당 레벨 이상의 실패 기록 초기화
             if (delta < 0) {
                 for (var i = newLevel; i < 9; i++) {
                     failHistory[i] = 0;
@@ -500,6 +603,9 @@
         function enhance() {
             if (simLevel >= 9) return;
             
+            // 광석 소모
+            addCost(simLevel);
+            
             simAttempts++;
             var prob = getCurrentProb();
             var roll = Math.random() * 100;
@@ -532,6 +638,9 @@
             simBonus = 0;
             failHistory = [0, 0, 0, 0, 0, 0, 0, 0, 0];
             targetLevel = 9;
+            totalMithril = 0;
+            totalAdamantium = 0;
+            totalEther = 0;
             updateStatus('강화를 시작하세요');
             updateSimUI();
         }
