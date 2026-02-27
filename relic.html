@@ -105,17 +105,187 @@
         .tier-relics { display: flex; flex-wrap: wrap; gap: 6px; padding-left: 8px; }
         .tier-relic { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; }
         footer { text-align: center; padding: 30px 0 10px; opacity: 0.3; font-size: 0.75rem; }
+
+        /* Tab Navigation */
+        .tab-nav { display: flex; gap: 8px; margin-bottom: 25px; justify-content: center; }
+        .tab-btn { padding: 10px 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: rgba(255,255,255,0.6); font-family: inherit; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .tab-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+        .tab-btn.active { background: linear-gradient(135deg, #6366f1, #a78bfa); border-color: transparent; color: #fff; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Simulator Styles */
+        .sim-info-box { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(167,139,250,0.05)); border: 1px solid rgba(167,139,250,0.2); border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; }
+        .prob-grid { display: grid; grid-template-columns: repeat(9, 1fr); gap: 6px; margin-bottom: 8px; }
+        .prob-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 4px; text-align: center; transition: all 0.2s; }
+        .prob-item.current { background: rgba(99,102,241,0.2); border-color: #6366f1; }
+        .prob-item.done { background: rgba(34,197,94,0.15); border-color: rgba(34,197,94,0.3); }
+        .prob-item.done .prob-value { color: #22c55e; }
+        .prob-level { font-size: 0.7rem; opacity: 0.5; margin-bottom: 4px; }
+        .prob-value { font-size: 0.85rem; font-weight: 600; color: #a78bfa; }
+        .prob-note { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-align: center; }
+
+        .sim-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; max-width: 480px; margin: 0 auto; }
+        
+        .sim-display { text-align: center; margin-bottom: 20px; position: relative; }
+        .sim-level-wrap { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px; }
+        .sim-level-btn { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; background: rgba(255,255,255,0.05); color: #fff; font-size: 1.2rem; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+        .sim-level-btn:hover { background: rgba(99,102,241,0.3); border-color: #6366f1; }
+        .sim-level-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .sim-level { font-size: 3.5rem; font-weight: 700; background: linear-gradient(135deg, #6366f1, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; min-width: 120px; }
+        .sim-level.complete { background: linear-gradient(135deg, #22c55e, #4ade80); -webkit-background-clip: text; background-clip: text; }
+        .sim-status { font-size: 0.9rem; color: rgba(255,255,255,0.5); height: 24px; }
+        .sim-status.success { color: #22c55e; }
+        .sim-status.fail { color: #ef4444; }
+
+        .sim-progress { margin-bottom: 20px; }
+        .sim-progress-bar { height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; overflow: hidden; margin-bottom: 6px; }
+        .sim-progress-fill { height: 100%; background: linear-gradient(90deg, #6366f1, #a78bfa); border-radius: 5px; transition: width 0.3s; }
+        .sim-progress-text { display: flex; justify-content: space-between; font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+        .sim-progress-text .current { color: #a78bfa; font-weight: 600; }
+        .sim-progress-text .bonus { color: #fbbf24; font-weight: 500; }
+
+        .sim-controls { display: flex; gap: 8px; margin-bottom: 16px; }
+        .sim-ctrl-btn { flex: 1; padding: 10px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.7); font-family: inherit; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; }
+        .sim-ctrl-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+        .sim-ctrl-btn.active { background: rgba(99,102,241,0.2); border-color: #6366f1; color: #a78bfa; }
+
+        .sim-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
+        .sim-btn { flex: 1; padding: 16px; border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .sim-btn.enhance { background: linear-gradient(135deg, #6366f1, #a78bfa); color: #fff; }
+        .sim-btn.enhance:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(99,102,241,0.4); }
+        .sim-btn.enhance:active { transform: translateY(0); }
+        .sim-btn.enhance:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+        .sim-btn.reset { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.8); flex: 0.4; }
+        .sim-btn.reset:hover { background: rgba(255,255,255,0.12); }
+
+        .sim-stats-row { display: flex; justify-content: center; gap: 24px; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.08); }
+        .sim-stat-item { text-align: center; }
+        .sim-stat-item .label { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-bottom: 2px; }
+        .sim-stat-item .value { font-size: 1.1rem; font-weight: 600; color: #fff; }
+        .sim-stat-item .value.success-color { color: #22c55e; }
+        .sim-stat-item .value.fail-color { color: #ef4444; }
+
+        /* History Section */
+        .sim-history { margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px; }
+        .sim-history-toggle { width: 100%; padding: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; color: rgba(255,255,255,0.7); font-family: inherit; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: all 0.15s; }
+        .sim-history-toggle:hover { background: rgba(255,255,255,0.06); }
+        .sim-history-toggle .arrow { transition: transform 0.2s; }
+        .sim-history-toggle.open .arrow { transform: rotate(180deg); }
+        .sim-history-content { display: none; margin-top: 12px; }
+        .sim-history-content.open { display: block; }
+        .sim-history-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .sim-history-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px; text-align: center; }
+        .sim-history-item .level { font-size: 0.8rem; color: #a78bfa; font-weight: 600; margin-bottom: 4px; }
+        .sim-history-item .detail { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+        .sim-history-item .detail span { font-weight: 500; }
+        .sim-history-item .fail-count { color: #ef4444; }
+        .sim-history-item .success-icon { color: #22c55e; }
+        .sim-history-empty { text-align: center; padding: 20px; color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+
+        @media (max-width: 600px) {
+            .prob-grid { grid-template-columns: repeat(3, 1fr); }
+            .sim-level { font-size: 2.8rem; min-width: 100px; }
+            .sim-level-btn { width: 32px; height: 32px; font-size: 1rem; }
+            .sim-history-grid { grid-template-columns: repeat(3, 1fr); }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <a href="index.html" class="back-btn">← 메인으로</a>
         <header>
-            <h1>유물 목록</h1>
+            <h1>유물</h1>
             <p>제작: 얼음(짭)</p>
         </header>
-        <input type="text" class="search-input" id="searchInput" placeholder="유물 검색...">
-        <div id="relicContainer"></div>
+        
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('list')">유물 목록</button>
+            <button class="tab-btn" onclick="switchTab('simulator')">강화 시뮬레이터</button>
+        </div>
+
+        <!-- Tab 1: Relic List -->
+        <div class="tab-content active" id="tab-list">
+            <input type="text" class="search-input" id="searchInput" placeholder="유물 검색...">
+            <div id="relicContainer"></div>
+        </div>
+
+        <!-- Tab 2: Enhancement Simulator -->
+        <div class="tab-content" id="tab-simulator">
+            <div class="sim-info-box">
+                <div class="prob-grid" id="probGrid">
+                    <div class="prob-item" data-level="0"><div class="prob-level">0→1</div><div class="prob-value">100%</div></div>
+                    <div class="prob-item" data-level="1"><div class="prob-level">1→2</div><div class="prob-value">90%</div></div>
+                    <div class="prob-item" data-level="2"><div class="prob-level">2→3</div><div class="prob-value">80%</div></div>
+                    <div class="prob-item" data-level="3"><div class="prob-level">3→4</div><div class="prob-value">70%</div></div>
+                    <div class="prob-item" data-level="4"><div class="prob-level">4→5</div><div class="prob-value">60%</div></div>
+                    <div class="prob-item" data-level="5"><div class="prob-level">5→6</div><div class="prob-value">50%</div></div>
+                    <div class="prob-item" data-level="6"><div class="prob-level">6→7</div><div class="prob-value">40%</div></div>
+                    <div class="prob-item" data-level="7"><div class="prob-level">7→8</div><div class="prob-value">30%</div></div>
+                    <div class="prob-item" data-level="8"><div class="prob-level">8→9</div><div class="prob-value">20%</div></div>
+                </div>
+                <div class="prob-note">실패 시 +2% 확률 보정 (최대 100%)</div>
+            </div>
+
+            <div class="sim-card">
+                <div class="sim-display">
+                    <div class="sim-level-wrap">
+                        <button class="sim-level-btn" id="levelDownBtn" onclick="adjustLevel(-1)">−</button>
+                        <div class="sim-level" id="simLevel">0강</div>
+                        <button class="sim-level-btn" id="levelUpBtn" onclick="adjustLevel(1)">+</button>
+                    </div>
+                    <div class="sim-status" id="simStatus">강화를 시작하세요</div>
+                </div>
+
+                <div class="sim-progress">
+                    <div class="sim-progress-bar">
+                        <div class="sim-progress-fill" id="simProgressFill" style="width: 100%;"></div>
+                    </div>
+                    <div class="sim-progress-text">
+                        <span>성공 확률: <span class="current" id="simCurrentProb">100%</span></span>
+                        <span class="bonus" id="simBonus"></span>
+                    </div>
+                </div>
+
+                <div class="sim-controls">
+                    <button class="sim-ctrl-btn" onclick="setTargetLevel(5)">5강까지</button>
+                    <button class="sim-ctrl-btn" onclick="setTargetLevel(7)">7강까지</button>
+                    <button class="sim-ctrl-btn" onclick="setTargetLevel(9)">9강까지</button>
+                    <button class="sim-ctrl-btn" id="autoModeBtn" onclick="toggleAutoMode()">자동</button>
+                </div>
+
+                <div class="sim-buttons">
+                    <button class="sim-btn enhance" id="simEnhanceBtn" onclick="enhance()">강화하기</button>
+                    <button class="sim-btn reset" onclick="resetSim()">초기화</button>
+                </div>
+
+                <div class="sim-stats-row">
+                    <div class="sim-stat-item">
+                        <div class="label">시도</div>
+                        <div class="value" id="simAttempts">0</div>
+                    </div>
+                    <div class="sim-stat-item">
+                        <div class="label">성공</div>
+                        <div class="value success-color" id="simSuccess">0</div>
+                    </div>
+                    <div class="sim-stat-item">
+                        <div class="label">실패</div>
+                        <div class="value fail-color" id="simFail">0</div>
+                    </div>
+                </div>
+
+                <div class="sim-history">
+                    <button class="sim-history-toggle" id="historyToggle" onclick="toggleHistory()">
+                        <span>📊 강화 기록 상세</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="sim-history-content" id="historyContent">
+                        <div id="historyGrid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal" id="relicModal">
@@ -140,5 +310,234 @@
     <footer>© 2026 얼음짭. All Rights Reserved.</footer>
     <script src="relic-data.js"></script>
     <script src="relic-app.js"></script>
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(function(btn) { btn.classList.remove('active'); });
+            document.querySelectorAll('.tab-content').forEach(function(content) { content.classList.remove('active'); });
+            document.querySelector('.tab-btn[onclick="switchTab(\'' + tabName + '\')"]').classList.add('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
+        }
+
+        // Enhancement Simulator
+        var simLevel = 0;
+        var simAttempts = 0;
+        var simSuccess = 0;
+        var simFail = 0;
+        var simBonus = 0;
+        var baseProbs = [100, 90, 80, 70, 60, 50, 40, 30, 20];
+        var failHistory = [0, 0, 0, 0, 0, 0, 0, 0, 0]; // 각 강화 단계별 실패 횟수
+        var autoMode = false;
+        var autoInterval = null;
+        var targetLevel = 9;
+
+        function getBaseProb(level) {
+            return baseProbs[level] || 0;
+        }
+
+        function getCurrentProb() {
+            return Math.min(100, getBaseProb(simLevel) + simBonus);
+        }
+
+        function updateProbGrid() {
+            var items = document.querySelectorAll('.prob-item');
+            items.forEach(function(item) {
+                var level = parseInt(item.getAttribute('data-level'));
+                item.classList.remove('current', 'done');
+                if (level < simLevel) {
+                    item.classList.add('done');
+                } else if (level === simLevel && simLevel < 9) {
+                    item.classList.add('current');
+                }
+            });
+        }
+
+        function updateSimUI() {
+            var levelEl = document.getElementById('simLevel');
+            levelEl.textContent = simLevel + '강';
+            levelEl.className = simLevel >= 9 ? 'sim-level complete' : 'sim-level';
+            
+            document.getElementById('simAttempts').textContent = simAttempts;
+            document.getElementById('simSuccess').textContent = simSuccess;
+            document.getElementById('simFail').textContent = simFail;
+            
+            var currentProb = getCurrentProb();
+            document.getElementById('simCurrentProb').textContent = currentProb + '%';
+            document.getElementById('simProgressFill').style.width = currentProb + '%';
+            document.getElementById('simBonus').textContent = simBonus > 0 ? '(보정 +' + simBonus + '%)' : '';
+            
+            // Level adjust buttons
+            document.getElementById('levelDownBtn').disabled = simLevel <= 0;
+            document.getElementById('levelUpBtn').disabled = simLevel >= 9;
+            
+            // Enhance button
+            var enhanceBtn = document.getElementById('simEnhanceBtn');
+            if (simLevel >= 9) {
+                enhanceBtn.disabled = true;
+                enhanceBtn.textContent = '🎉 9강 달성!';
+            } else {
+                enhanceBtn.disabled = false;
+                enhanceBtn.textContent = '강화하기';
+            }
+            
+            updateProbGrid();
+            updateHistory();
+        }
+
+        function updateHistory() {
+            var grid = document.getElementById('historyGrid');
+            var hasHistory = failHistory.some(function(f) { return f > 0; }) || simLevel > 0;
+            
+            if (!hasHistory) {
+                grid.innerHTML = '<div class="sim-history-empty">아직 강화 기록이 없습니다</div>';
+                return;
+            }
+            
+            var html = '<div class="sim-history-grid">';
+            for (var i = 0; i < 9; i++) {
+                var isDone = i < simLevel;
+                var isCurrent = i === simLevel && simLevel < 9;
+                var fails = failHistory[i];
+                
+                html += '<div class="sim-history-item">';
+                html += '<div class="level">' + i + '→' + (i+1) + '강</div>';
+                html += '<div class="detail">';
+                if (isDone) {
+                    html += '<span class="success-icon">✓</span> ';
+                    if (fails > 0) {
+                        html += '<span class="fail-count">' + fails + '회 실패</span>';
+                    } else {
+                        html += '한번에 성공';
+                    }
+                } else if (isCurrent) {
+                    if (fails > 0) {
+                        html += '<span class="fail-count">' + fails + '회 실패 중</span>';
+                    } else {
+                        html += '진행 대기';
+                    }
+                } else {
+                    html += '−';
+                }
+                html += '</div></div>';
+            }
+            html += '</div>';
+            grid.innerHTML = html;
+        }
+
+        function toggleHistory() {
+            var toggle = document.getElementById('historyToggle');
+            var content = document.getElementById('historyContent');
+            toggle.classList.toggle('open');
+            content.classList.toggle('open');
+        }
+
+        function adjustLevel(delta) {
+            var newLevel = simLevel + delta;
+            if (newLevel < 0 || newLevel > 9) return;
+            
+            // 레벨 내리면 해당 레벨 이상의 실패 기록 초기화
+            if (delta < 0) {
+                for (var i = newLevel; i < 9; i++) {
+                    failHistory[i] = 0;
+                }
+                simSuccess = Math.max(0, simSuccess - 1);
+            } else {
+                simSuccess++;
+            }
+            
+            simLevel = newLevel;
+            simBonus = 0;
+            updateStatus('레벨 조정됨');
+            updateSimUI();
+        }
+
+        function setTargetLevel(target) {
+            targetLevel = target;
+            if (autoMode && simLevel >= targetLevel) {
+                stopAutoMode();
+            }
+        }
+
+        function toggleAutoMode() {
+            if (autoMode) {
+                stopAutoMode();
+            } else {
+                startAutoMode();
+            }
+        }
+
+        function startAutoMode() {
+            if (simLevel >= 9 || simLevel >= targetLevel) return;
+            autoMode = true;
+            document.getElementById('autoModeBtn').classList.add('active');
+            document.getElementById('autoModeBtn').textContent = '정지';
+            
+            autoInterval = setInterval(function() {
+                if (simLevel >= 9 || simLevel >= targetLevel) {
+                    stopAutoMode();
+                    return;
+                }
+                enhance();
+            }, 150);
+        }
+
+        function stopAutoMode() {
+            autoMode = false;
+            document.getElementById('autoModeBtn').classList.remove('active');
+            document.getElementById('autoModeBtn').textContent = '자동';
+            if (autoInterval) {
+                clearInterval(autoInterval);
+                autoInterval = null;
+            }
+        }
+
+        function updateStatus(text, type) {
+            var statusEl = document.getElementById('simStatus');
+            statusEl.textContent = text;
+            statusEl.className = 'sim-status' + (type ? ' ' + type : '');
+        }
+
+        function enhance() {
+            if (simLevel >= 9) return;
+            
+            simAttempts++;
+            var prob = getCurrentProb();
+            var roll = Math.random() * 100;
+            
+            if (roll < prob) {
+                simSuccess++;
+                simLevel++;
+                simBonus = 0;
+                updateStatus('강화 성공! ✓', 'success');
+                
+                if (simLevel >= 9) {
+                    stopAutoMode();
+                }
+            } else {
+                simFail++;
+                failHistory[simLevel]++;
+                simBonus += 2;
+                updateStatus('실패 (보정 +2%)', 'fail');
+            }
+            
+            updateSimUI();
+        }
+
+        function resetSim() {
+            stopAutoMode();
+            simLevel = 0;
+            simAttempts = 0;
+            simSuccess = 0;
+            simFail = 0;
+            simBonus = 0;
+            failHistory = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+            targetLevel = 9;
+            updateStatus('강화를 시작하세요');
+            updateSimUI();
+        }
+
+        // Initialize
+        updateSimUI();
+    </script>
 </body>
 </html>
