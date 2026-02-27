@@ -4,6 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>업적 목록 - 성지키기 헬퍼</title>
+    
+    <!-- Meta tags for link previews -->
+    <meta name="description" content="Made by 얼음(짭)">
+    <meta name="author" content="얼음(짭)">
+    
+    <!-- Open Graph / Discord / KakaoTalk -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="업적 목록 - 성지키기 헬퍼">
+    <meta property="og:description" content="Made by 얼음(짭)">
+    <meta property="og:image" content="images/성지키기설계도.png">
+    <meta property="og:locale" content="ko_KR">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="업적 목록 - 성지키기 헬퍼">
+    <meta name="twitter:description" content="Made by 얼음(짭)">
+    <meta name="twitter:image" content="images/성지키기설계도.png">
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <link rel="shortcut icon" href="favicons/favicon.ico">
+    
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -52,12 +76,12 @@
     <div class="container">
         <a href="index.html" class="back-btn">← 메인으로</a>
         <header>
-            <h1>업적 목록</h1>
-            <p>업적을 달성하여 영구적인 버프를 얻으세요</p>
+            <h1>업적</h1>
+            <p>제작: 얼음(짭) | 원본 자료: 뇽이자리님, 아델자리님, 토리자리님</p>
         </header>
         <div id="achievementContainer"></div>
     </div>
-    <footer>© 2026 성지키기 헬퍼. All Rights Reserved.</footer>
+    <footer>© 2026 얼음짭. All Rights Reserved.</footer>
 
     <script>
         // 카테고리별 스탯 아이콘
@@ -94,7 +118,20 @@
             'Token': 'images/Icons/Achieve_ICON_BoxOpen.png',
             'Wolf': 'images/Icons/Achieve_ICON_Wolf.png',
             'Well': 'images/Icons/Achieve_ICON_Recovery.png',
-            'Death': 'images/Icons/Achieve_ICON_Injured.png'
+            'Death': 'images/Icons/Achieve_ICON_Injured.png',
+            'Ads': 'images/Icons/Achieve_ICON_Advertisement.png',
+            'Escape': 'images/Icons/Achieve_ICON_Room.png',
+            'Raid': 'images/Icons/Achieve_ICON_Clear.png',
+            'Undead': 'images/Icons/Achieve_ICON_Injured.png',
+            'Dragon': 'images/Icons/Achieve_ICON_Play.png',
+            'Clock': 'images/Icons/Achieve_ICON_Play.png',
+            'AOS': 'images/Icons/Achieve_ICON_Play.png',
+            'King': 'images/Icons/Achieve_ICON_Play.png',
+            'Reaper': 'images/Icons/Achieve_ICON_Advertisement.png',
+            'Volleyball': 'images/Icons/Achieve_ICON_Clear.png',
+            'Youtuber': 'images/Icons/Achieve_ICON_Clear.png',
+            'Attendance': 'images/Icons/Achieve_ICON_Clear.png',
+            'PaidSkin': 'images/Icons/Achieve_ICON_Advertisement.png'
         };
 
         var ACHIEVEMENTS = [
@@ -109,7 +146,7 @@
                     { name: '레이드 클리어', eng: 'Raid', counts: '10/100/1000', values: [1,2,3], total: 6 },
                     { name: '협력전 플레이', eng: 'AOS', counts: '10/100/1000', values: [1,2,3], total: 6 },
                     { name: '언데드보스', eng: 'Undead', counts: '10/100/1000', values: [1,2,3], total: 6 },
-                    { name: '유료 스킨', eng: '', counts: '공격력증가 유료스킨 한 캐릭당 공격력 2', values: [], total: '2×90 (180)' }
+                    { name: '유료 스킨', eng: 'PaidSkin', counts: '공격력증가 유료스킨 한 캐릭당 공격력 2', values: [], total: '2×90 (180)' }
                 ]
             },
             {
@@ -119,9 +156,9 @@
                     { name: '오크 처치', eng: 'Orc', counts: '100/500/1000/5000/10000', values: [10,20,30,40,50], total: 150 },
                     { name: '수정 강화', eng: 'Crystal', counts: '10/50/100/500/1000', values: [10,20,30,40,50], total: 150 },
                     { name: '배구', eng: 'Volleyball', counts: '10/100/1000', values: [3,6,9], total: 18 },
-                    { name: '출석', eng: '', counts: '100', values: [100], total: 100 },
-                    { name: '유료스킨', eng: '', counts: '체력증가 유료스킨 한 캐릭당 체력 20', values: [], total: '20×60 (1200)' },
-                    { name: '성지 유튜버 (획득 거의 불가능)', eng: '', counts: '1', values: [100], total: 100 }
+                    { name: '출석', eng: 'Attendance', counts: '100', values: [100], total: 100 },
+                    { name: '유료스킨', eng: 'PaidSkin', counts: '체력증가 유료스킨 한 캐릭당 체력 20', values: [], total: '20×60 (1200)' },
+                    { name: '성지 유튜버 (획득 거의 불가능)', eng: 'Youtuber', counts: '1', values: [100], total: 100 }
                 ]
             },
             {
