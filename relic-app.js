@@ -192,6 +192,7 @@ function renderStats(level) {
         var stat = currentRelic.baseStat[i];
         var name = stat[0], base = stat[1], unit = stat[2] || "";
         var value = currentRelic.noStatMultiplier ? base : base * statLevel;
+        value = Math.round(value * 1000) / 1000; // 부동소수점 오류 방지
         var sign = value >= 0 ? "+" : "";
         var isNegativeGood = negativeIsGood.indexOf(name) !== -1;
         var isNegative = isNegativeGood ? (value > 0) : (value < 0);
