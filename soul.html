@@ -30,7 +30,8 @@
         .prob-table th, .prob-table td { padding: 10px 8px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
         .prob-table th { background: rgba(99,102,241,0.25); font-weight: 600; }
         .stat-header-row td { background: rgba(255,255,255,0.04); font-weight: 500; }
-        .stat-header-row td.stat-name { background: rgba(99,102,241,0.15); text-align: left; padding-left: 12px; white-space: nowrap; }
+        .stat-header-row td.stat-name { background: rgba(99,102,241,0.15); text-align: left; padding-left: 12px; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+        .stat-header-row td.stat-name img { width: 18px; height: 18px; object-fit: contain; }
         .prob-row td { background: rgba(255,255,255,0.02); font-size: 0.75rem; }
         .prob-row td:first-child { background: rgba(99,102,241,0.08); }
         .max-val { color: #f59e0b !important; font-weight: 600; }
@@ -105,23 +106,23 @@
                     <table class="prob-table">
                         <thead><tr><th>스텟</th><th colspan="4">수치별 확률</th></tr></thead>
                         <tbody>
-                            <tr class="stat-header-row"><td class="stat-name"> 크뎀</td><td>1~7</td><td>8</td><td>9</td><td class="max-val">10</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_CriticalDmg.png" alt=""> 크뎀</td><td>1~7</td><td>8</td><td>9</td><td class="max-val">10</td></tr>
                             <tr class="prob-row"><td></td><td>각 14.03%</td><td>1.03%</td><td>0.53%</td><td class="max-val">0.2%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 크확</td><td>1~7</td><td>8</td><td>9</td><td class="max-val">10</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_Critical.png" alt=""> 크확</td><td>1~7</td><td>8</td><td>9</td><td class="max-val">10</td></tr>
                             <tr class="prob-row"><td></td><td>각 14.03%</td><td>1.03%</td><td>0.53%</td><td class="max-val">0.2%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 방어력</td><td>1~7</td><td>8</td><td>9</td><td class="max-val">10</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_Shield.png" alt=""> 방어력</td><td>1~7</td><td>8</td><td>9</td><td class="max-val">10</td></tr>
                             <tr class="prob-row"><td></td><td>각 14.03%</td><td>1.03%</td><td>0.53%</td><td class="max-val">0.2%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 체회</td><td>1~7</td><td>8</td><td>9</td><td class="max-val">10</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_HPResilience.png" alt=""> 체회</td><td>1~7</td><td>8</td><td>9</td><td class="max-val">10</td></tr>
                             <tr class="prob-row"><td></td><td>각 14.03%</td><td>1.03%</td><td>0.53%</td><td class="max-val">0.2%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 공속</td><td>1~5</td><td>6</td><td>7</td><td class="max-val">8</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_AttackSpeed.png" alt=""> 공속</td><td>1~5</td><td>6</td><td>7</td><td class="max-val">8</td></tr>
                             <tr class="prob-row"><td></td><td>각 19.55%</td><td>1.35%</td><td>0.68%</td><td class="max-val">0.25%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 공격력</td><td>1~14</td><td>15</td><td>16</td><td class="max-val">17</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_Attack.png" alt=""> 공격력</td><td>1~14</td><td>15</td><td>16</td><td class="max-val">17</td></tr>
                             <tr class="prob-row"><td></td><td>각 7.07%</td><td>0.57%</td><td>0.31%</td><td class="max-val">0.12%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 체력</td><td>10~280</td><td>290</td><td>300</td><td class="max-val">310</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_HP.png" alt=""> 체력</td><td>10~280</td><td>290</td><td>300</td><td class="max-val">310</td></tr>
                             <tr class="prob-row"><td></td><td>각 3.55%</td><td>0.30%</td><td>0.16%</td><td class="max-val">0.06%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 이속</td><td>1~12</td><td>13</td><td>14</td><td class="max-val">15</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_MovingSpeed.png" alt=""> 이속</td><td>1~12</td><td>13</td><td>14</td><td class="max-val">15</td></tr>
                             <tr class="prob-row"><td></td><td>각 8.24%</td><td>0.66%</td><td>0.35%</td><td class="max-val">0.13%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 경획</td><td>1~13</td><td>14</td><td>15</td><td class="max-val">16</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_EXP.png" alt=""> 경획</td><td>1~13</td><td>14</td><td>15</td><td class="max-val">16</td></tr>
                             <tr class="prob-row"><td></td><td>각 7.61%</td><td>0.61%</td><td>0.33%</td><td class="max-val">0.13%</td></tr>
                         </tbody>
                     </table>
@@ -132,23 +133,23 @@
                     <table class="prob-table">
                         <thead><tr><th>스텟</th><th colspan="5">수치별 확률</th></tr></thead>
                         <tbody>
-                            <tr class="stat-header-row"><td class="stat-name"> 크뎀</td><td>1~2</td><td>3</td><td>4</td><td>5</td><td class="max-val">6</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_CriticalDmg.png" alt=""> 크뎀</td><td>1~2</td><td>3</td><td>4</td><td>5</td><td class="max-val">6</td></tr>
                             <tr class="prob-row"><td></td><td>각 43.65%</td><td>8.65%</td><td>1.98%</td><td>1.23%</td><td class="max-val">0.83%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 크확</td><td>1~2</td><td>3</td><td>4</td><td>5</td><td class="max-val">6</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_Critical.png" alt=""> 크확</td><td>1~2</td><td>3</td><td>4</td><td>5</td><td class="max-val">6</td></tr>
                             <tr class="prob-row"><td></td><td>각 43.65%</td><td>8.65%</td><td>1.98%</td><td>1.23%</td><td class="max-val">0.83%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 방어력</td><td>1~2</td><td>3</td><td>4</td><td>5</td><td class="max-val">6</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_Shield.png" alt=""> 방어력</td><td>1~2</td><td>3</td><td>4</td><td>5</td><td class="max-val">6</td></tr>
                             <tr class="prob-row"><td></td><td>각 43.65%</td><td>8.65%</td><td>1.98%</td><td>1.23%</td><td class="max-val">0.83%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 체회</td><td>1~2</td><td>3</td><td>4</td><td>5</td><td class="max-val">6</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_HPResilience.png" alt=""> 체회</td><td>1~2</td><td>3</td><td>4</td><td>5</td><td class="max-val">6</td></tr>
                             <tr class="prob-row"><td></td><td>각 43.65%</td><td>8.65%</td><td>1.98%</td><td>1.23%</td><td class="max-val">0.83%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 공속</td><td>1~2</td><td>3</td><td>4</td><td>5</td><td class="max-val">6</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_AttackSpeed.png" alt=""> 공속</td><td>1~2</td><td>3</td><td>4</td><td>5</td><td class="max-val">6</td></tr>
                             <tr class="prob-row"><td></td><td>각 43.65%</td><td>8.65%</td><td>1.98%</td><td>1.23%</td><td class="max-val">0.83%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 공격력</td><td>1~8</td><td>9</td><td>10</td><td>11</td><td class="max-val">12</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_Attack.png" alt=""> 공격력</td><td>1~8</td><td>9</td><td>10</td><td>11</td><td class="max-val">12</td></tr>
                             <tr class="prob-row"><td></td><td>각 11.87%</td><td>3.12%</td><td>0.90%</td><td>0.60%</td><td class="max-val">0.42%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 체력</td><td>10~120</td><td>130</td><td>140</td><td>150</td><td class="max-val">160</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_HP.png" alt=""> 체력</td><td>10~120</td><td>130</td><td>140</td><td>150</td><td class="max-val">160</td></tr>
                             <tr class="prob-row"><td></td><td>각 8.03%</td><td>2.20%</td><td>0.66%</td><td>0.45%</td><td class="max-val">0.31%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 이속</td><td>1~6</td><td>7</td><td>8</td><td>9</td><td class="max-val">10</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_MovingSpeed.png" alt=""> 이속</td><td>1~6</td><td>7</td><td>8</td><td>9</td><td class="max-val">10</td></tr>
                             <tr class="prob-row"><td></td><td>각 15.62%</td><td>3.95%</td><td>1.10%</td><td>0.72%</td><td class="max-val">0.50%</td></tr>
-                            <tr class="stat-header-row"><td class="stat-name"> 경획</td><td>1~6</td><td>7</td><td>8</td><td>9</td><td class="max-val">10</td></tr>
+                            <tr class="stat-header-row"><td class="stat-name"><img src="images/Icons/Icon_Simple_EXP.png" alt=""> 경획</td><td>1~6</td><td>7</td><td>8</td><td>9</td><td class="max-val">10</td></tr>
                             <tr class="prob-row"><td></td><td>각 15.62%</td><td>3.95%</td><td>1.10%</td><td>0.72%</td><td class="max-val">0.50%</td></tr>
                         </tbody>
                     </table>

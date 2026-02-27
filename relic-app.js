@@ -139,6 +139,49 @@ function renderLevelSelector(relic) {
 
 function updateInfo(level) { renderStats(level); renderAbility(level); }
 
+// 스탯 아이콘 매핑 (띄어쓰기 있는 버전과 없는 버전 모두 포함)
+var STAT_ICON_MAP = {
+    '공격력': 'images/Icons/Icon_Simple_Attack.png',
+    '체력': 'images/Icons/Icon_Simple_HP.png',
+    '방어력': 'images/Icons/Icon_Simple_Shield.png',
+    '크리티컬 확률': 'images/Icons/Icon_Simple_Critical.png',
+    '크리티컬확률': 'images/Icons/Icon_Simple_Critical.png',
+    '크리티컬 데미지': 'images/Icons/Icon_Simple_CriticalDmg.png',
+    '크리티컬데미지': 'images/Icons/Icon_Simple_CriticalDmg.png',
+    '공격 속도': 'images/Icons/Icon_Simple_AttackSpeed.png',
+    '공격속도': 'images/Icons/Icon_Simple_AttackSpeed.png',
+    '이동 속도': 'images/Icons/Icon_Simple_MovingSpeed.png',
+    '이동속도': 'images/Icons/Icon_Simple_MovingSpeed.png',
+    '체력 회복': 'images/Icons/Icon_Simple_HPResilience.png',
+    '체력회복': 'images/Icons/Icon_Simple_HPResilience.png',
+    '초당 체력 회복': 'images/Icons/Icon_Simple_HPResilience.png',
+    '초당체력회복': 'images/Icons/Icon_Simple_HPResilience.png',
+    '경험치 획득률': 'images/Icons/Icon_Simple_EXP.png',
+    '경험치획득률': 'images/Icons/Icon_Simple_EXP.png',
+    '경험치 획득': 'images/Icons/Icon_Simple_EXP.png',
+    '경험치획득': 'images/Icons/Icon_Simple_EXP.png',
+    '쿨타임 감소': 'images/Icons/Icon_Simple_CoolTime.png',
+    '쿨타임감소': 'images/Icons/Icon_Simple_CoolTime.png',
+    '흡혈': 'images/Icons/Icon_Simple_Bloodsucking.png',
+    '골드 획득량': 'images/Icons/Icon_Simple_Gold.png',
+    '골드획득량': 'images/Icons/Icon_Simple_Gold.png',
+    '골드 획득': 'images/Icons/Icon_Simple_Gold.png',
+    '골드획득': 'images/Icons/Icon_Simple_Gold.png',
+    '부활시간': 'images/Icons/Icon_Simple_Resurrection.png',
+    '부활 시간': 'images/Icons/Icon_Simple_Resurrection.png',
+    '피격 데미지': 'images/Icons/Icon_Simple_Hitdamage.png',
+    '피격데미지': 'images/Icons/Icon_Simple_Hitdamage.png'
+};
+
+function getStatIcon(statName) {
+    for (var key in STAT_ICON_MAP) {
+        if (statName.indexOf(key) !== -1) {
+            return '<img src="' + STAT_ICON_MAP[key] + '" alt="" style="width:16px;height:16px;vertical-align:middle;margin-right:6px;">';
+        }
+    }
+    return '';
+}
+
 function renderStats(level) {
     var section = document.getElementById("statsSection");
     if (!currentRelic || currentRelic.baseStat.length === 0) { section.innerHTML = ""; return; }
@@ -152,7 +195,8 @@ function renderStats(level) {
         var sign = value >= 0 ? "+" : "";
         var isNegativeGood = negativeIsGood.indexOf(name) !== -1;
         var isNegative = isNegativeGood ? (value > 0) : (value < 0);
-        html += "<div class=\"stat-line\"><span class=\"label\">" + name + "</span><span class=\"value" + (isNegative ? " negative" : "") + "\">" + sign + value + unit + "</span></div>";
+        var icon = getStatIcon(name);
+        html += "<div class=\"stat-line\"><span class=\"label\">" + icon + name + "</span><span class=\"value" + (isNegative ? " negative" : "") + "\">" + sign + value + unit + "</span></div>";
     }
     html += "</div>";
     section.innerHTML = html;

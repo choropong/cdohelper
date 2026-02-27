@@ -135,7 +135,7 @@ function updateCalcStatGrid() {
     STAT_LIST.forEach(stat => {
         const btn = document.createElement('button');
         btn.className = 'stat-btn' + (stat === calcState.selectedStat ? ' active' : '');
-        btn.textContent = `${STAT_EMOJI[stat]} ${stat}`;
+        btn.innerHTML = `<img src="${STAT_ICONS[stat]}" alt="" style="width:16px;height:16px;vertical-align:middle;margin-right:3px;">${stat}`;
         btn.addEventListener('click', () => {
             grid.querySelectorAll('.stat-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -246,7 +246,7 @@ function updateSimStatGrid() {
     STAT_LIST.forEach(stat => {
         const btn = document.createElement('button');
         btn.className = 'stat-btn' + (stat === simState.selectedStat ? ' active' : '');
-        btn.textContent = `${STAT_EMOJI[stat]} ${stat}`;
+        btn.innerHTML = `<img src="${STAT_ICONS[stat]}" alt="" style="width:16px;height:16px;vertical-align:middle;margin-right:3px;">${stat}`;
         btn.addEventListener('click', () => {
             grid.querySelectorAll('.stat-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');

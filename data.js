@@ -3,17 +3,17 @@
 // 스텟 목록 (순서)
 const STAT_LIST = ['크리티컬 데미지', '크리티컬 확률', '방어력', '체력 회복', '공격속도', '공격력', '체력', '이동속도', '경험치획득률'];
 
-// 스텟 이모지
-const STAT_EMOJI = {
-    '크리티컬 데미지': '💀',
-    '크리티컬 확률': '🎯',
-    '방어력': '🛡️',
-    '체력 회복': '💚',
-    '공격속도': '⚡',
-    '공격력': '⚔️',
-    '체력': '❤️',
-    '이동속도': '👟',
-    '경험치획득률': '📈'
+// 스텟 아이콘 이미지 경로
+const STAT_ICONS = {
+    '크리티컬 데미지': 'images/Icons/Icon_Simple_CriticalDmg.png',
+    '크리티컬 확률': 'images/Icons/Icon_Simple_Critical.png',
+    '방어력': 'images/Icons/Icon_Simple_Shield.png',
+    '체력 회복': 'images/Icons/Icon_Simple_HPResilience.png',
+    '공격속도': 'images/Icons/Icon_Simple_AttackSpeed.png',
+    '공격력': 'images/Icons/Icon_Simple_Attack.png',
+    '체력': 'images/Icons/Icon_Simple_HP.png',
+    '이동속도': 'images/Icons/Icon_Simple_MovingSpeed.png',
+    '경험치획득률': 'images/Icons/Icon_Simple_EXP.png'
 };
 
 // 스텟별 범위 데이터

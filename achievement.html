@@ -17,7 +17,7 @@
 
         .category-section { margin-bottom: 28px; }
         .category-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(167,139,250,0.15)); border: 1px solid rgba(167,139,250,0.3); border-radius: 12px; margin-bottom: 12px; }
-        .category-icon { font-size: 1.5rem; }
+        .category-icon { width: 28px; height: 28px; object-fit: contain; }
         .category-title { font-size: 1.1rem; font-weight: 600; color: #a78bfa; }
         .category-total { margin-left: auto; font-size: 0.9rem; color: #22c55e; font-weight: 600; background: rgba(34,197,94,0.15); padding: 4px 12px; border-radius: 20px; }
 
@@ -26,7 +26,8 @@
         .achievement-card:hover { background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.3); }
         
         .achievement-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-        .achievement-name { font-size: 0.95rem; font-weight: 600; }
+        .achievement-name { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; font-weight: 600; }
+        .achievement-name img { width: 24px; height: 24px; object-fit: contain; }
         .achievement-name span { font-size: 0.75rem; opacity: 0.4; font-weight: 400; margin-left: 6px; }
         .achievement-total { font-size: 0.85rem; color: #fbbf24; font-weight: 600; background: rgba(251,191,36,0.15); padding: 4px 10px; border-radius: 6px; }
 
@@ -59,6 +60,43 @@
     <footer>© 2026 성지키기 헬퍼. All Rights Reserved.</footer>
 
     <script>
+        // 카테고리별 스탯 아이콘
+        var CATEGORY_ICONS = {
+            '공격력 증가': 'images/Icons/Icon_Simple_Attack.png',
+            '체력 증가': 'images/Icons/Icon_Simple_HP.png',
+            '방어력 증가': 'images/Icons/Icon_Simple_Shield.png',
+            '초당 체력회복 증가': 'images/Icons/Icon_Simple_HPResilience.png',
+            '쿨타임 감소': 'images/Icons/Icon_Simple_CoolTime.png',
+            '초당 골드 획득증가': 'images/Icons/Icon_Simple_Gold.png',
+            '경험치 증가': 'images/Icons/Icon_Simple_EXP.png',
+            '공격 속도 증가': 'images/Icons/Icon_Simple_AttackSpeed.png',
+            '크리티컬 확률증가': 'images/Icons/Icon_Simple_Critical.png',
+            '흡혈 증가': 'images/Icons/Icon_Simple_Bloodsucking.png',
+            '부활시간 감소': 'images/Icons/Icon_Simple_Resurrection.png'
+        };
+
+        // 업적별 아이콘
+        var ACHIEVE_ICONS = {
+            'Play': 'images/Icons/Achieve_ICON_Play.png',
+            'Room': 'images/Icons/Achieve_ICON_Room.png',
+            'Goblin': 'images/Icons/Achieve_ICON_Goblin.png',
+            'Orc': 'images/Icons/Achieve_ICON_Orc.png',
+            'Crystal': 'images/Icons/Achieve_ICON_CrystalUp.png',
+            'Ent': 'images/Icons/Achieve_ICON_Ent.png',
+            'Troll': 'images/Icons/Achieve_ICON_Troll.png',
+            'Ad': 'images/Icons/Achieve_ICON_Advertisement.png',
+            'Shaman': 'images/Icons/Achieve_ICON_OrcShaman.png',
+            'Inapp': 'images/Icons/Achieve_ICON_Payment.png',
+            'Rune': 'images/Icons/Achieve_ICON_Rune.png',
+            'Clear': 'images/Icons/Achieve_ICON_Clear.png',
+            'Tower': 'images/Icons/Achieve_ICON_Tower.png',
+            'Oger': 'images/Icons/Achieve_ICON_Ogre.png',
+            'Token': 'images/Icons/Achieve_ICON_BoxOpen.png',
+            'Wolf': 'images/Icons/Achieve_ICON_Wolf.png',
+            'Well': 'images/Icons/Achieve_ICON_Recovery.png',
+            'Death': 'images/Icons/Achieve_ICON_Injured.png'
+        };
+
         var ACHIEVEMENTS = [
             {
                 category: '공격력 증가',
@@ -165,9 +203,12 @@
 
             for (var i = 0; i < ACHIEVEMENTS.length; i++) {
                 var cat = ACHIEVEMENTS[i];
+                var catIcon = CATEGORY_ICONS[cat.category] || '';
                 html += '<div class="category-section">';
                 html += '<div class="category-header">';
-                html += '<span class="category-icon">' + cat.icon + '</span>';
+                if (catIcon) {
+                    html += '<img class="category-icon" src="' + catIcon + '" alt="">';
+                }
                 html += '<span class="category-title">' + cat.category + '</span>';
                 html += '</div>';
 
@@ -175,7 +216,12 @@
 
                 for (var j = 0; j < cat.items.length; j++) {
                     var item = cat.items[j];
-                    var nameHtml = item.name;
+                    var achieveIcon = item.eng ? ACHIEVE_ICONS[item.eng] : '';
+                    var nameHtml = '';
+                    if (achieveIcon) {
+                        nameHtml += '<img src="' + achieveIcon + '" alt="">';
+                    }
+                    nameHtml += item.name;
                     if (item.eng) nameHtml += '<span>(' + item.eng + ')</span>';
 
                     html += '<div class="achievement-card">';

@@ -112,6 +112,30 @@
 
     <script src="relic-data.js"></script>
     <script>
+        // 버프 타입별 아이콘 매핑
+        var BUFF_ICONS = {
+            '공격 속도': 'images/Icons/Icon_Simple_AttackSpeed.png',
+            '크리티컬 데미지': 'images/Icons/Icon_Simple_CriticalDmg.png',
+            '방어력': 'images/Icons/Icon_Simple_Shield.png',
+            '체력': 'images/Icons/Icon_Simple_HP.png',
+            '공격력': 'images/Icons/Icon_Simple_Attack.png',
+            '쿨타임': 'images/Icons/Icon_Simple_CoolTime.png',
+            '초당 체력 회복': 'images/Icons/Icon_Simple_HPResilience.png',
+            '흡혈': 'images/Icons/Icon_Simple_Bloodsucking.png',
+            '경험치 획득률': 'images/Icons/Icon_Simple_EXP.png',
+            '초당 실버': 'images/Icons/Icon_Simple_Gold.png',
+            '받는 데미지': 'images/Icons/Icon_Simple_Hitdamage.png'
+        };
+        
+        function getBuffIcon(buffText) {
+            for (var key in BUFF_ICONS) {
+                if (buffText.indexOf(key) !== -1) {
+                    return '<img src="' + BUFF_ICONS[key] + '" alt="" style="width:16px;height:16px;vertical-align:middle;margin-right:4px;">';
+                }
+            }
+            return '✨ ';  // special 버프 (신화템, 특성)
+        }
+        
         var COLLECTIONS = [
             { name: '그리스 신화 1', buff: '신화템 +1', buffType: 'special',
               relics: ['아이기스', '아킬레우스갑주', '판도라의상자', '카두케우스', '암브로시아'] },
@@ -139,7 +163,7 @@
               relics: ['찬드라하스', '사릉가'] },
             { name: '기타 신화', buff: '경험치 획득률 30%',
               relics: ['힐데그림', '요술램프', '아카식레코드', '아스칼론', '솔로몬의반지', '네크로노미콘', '골렘'] },
-            { name: '성지키기 전설', buff: '초당 골드 1',
+            { name: '성지키기 전설', buff: '초당 실버 1',
               relics: ['블랙해머', '성지키기설계도'] },
             { name: '고대 보물', buff: '받는 데미지 -5%',
               relics: ['오라클', '바인드하트', '에테리온', '황금알오리', '언약궤'] }
@@ -161,7 +185,8 @@
                 html += '<div class="collection-card">';
                 html += '<div class="collection-header">';
                 html += '<div class="collection-title">' + col.name + '</div>';
-                html += '<div class="collection-buff' + (col.buffType === 'special' ? ' special' : '') + '">✨ ' + col.buff + '</div>';
+                var buffIcon = col.buffType === 'special' ? '✨ ' : getBuffIcon(col.buff);
+                html += '<div class="collection-buff' + (col.buffType === 'special' ? ' special' : '') + '">' + buffIcon + col.buff + '</div>';
                 html += '</div>';
                 html += '<div class="collection-relics">';
                 for (var j = 0; j < col.relics.length; j++) {
@@ -264,6 +289,49 @@
 
         function updateInfo(level) { renderStats(level); renderAbility(level); }
 
+        // 스탯 아이콘 매핑 (띄어쓰기 있는 버전과 없는 버전 모두 포함)
+        var STAT_ICON_MAP = {
+            '공격력': 'images/Icons/Icon_Simple_Attack.png',
+            '체력': 'images/Icons/Icon_Simple_HP.png',
+            '방어력': 'images/Icons/Icon_Simple_Shield.png',
+            '크리티컬 확률': 'images/Icons/Icon_Simple_Critical.png',
+            '크리티컬확률': 'images/Icons/Icon_Simple_Critical.png',
+            '크리티컬 데미지': 'images/Icons/Icon_Simple_CriticalDmg.png',
+            '크리티컬데미지': 'images/Icons/Icon_Simple_CriticalDmg.png',
+            '공격 속도': 'images/Icons/Icon_Simple_AttackSpeed.png',
+            '공격속도': 'images/Icons/Icon_Simple_AttackSpeed.png',
+            '이동 속도': 'images/Icons/Icon_Simple_MovingSpeed.png',
+            '이동속도': 'images/Icons/Icon_Simple_MovingSpeed.png',
+            '체력 회복': 'images/Icons/Icon_Simple_HPResilience.png',
+            '체력회복': 'images/Icons/Icon_Simple_HPResilience.png',
+            '초당 체력 회복': 'images/Icons/Icon_Simple_HPResilience.png',
+            '초당체력회복': 'images/Icons/Icon_Simple_HPResilience.png',
+            '경험치 획득률': 'images/Icons/Icon_Simple_EXP.png',
+            '경험치획득률': 'images/Icons/Icon_Simple_EXP.png',
+            '경험치 획득': 'images/Icons/Icon_Simple_EXP.png',
+            '경험치획득': 'images/Icons/Icon_Simple_EXP.png',
+            '쿨타임 감소': 'images/Icons/Icon_Simple_CoolTime.png',
+            '쿨타임감소': 'images/Icons/Icon_Simple_CoolTime.png',
+            '흡혈': 'images/Icons/Icon_Simple_Bloodsucking.png',
+            '골드 획득량': 'images/Icons/Icon_Simple_Gold.png',
+            '골드획득량': 'images/Icons/Icon_Simple_Gold.png',
+            '골드 획득': 'images/Icons/Icon_Simple_Gold.png',
+            '골드획득': 'images/Icons/Icon_Simple_Gold.png',
+            '부활시간': 'images/Icons/Icon_Simple_Resurrection.png',
+            '부활 시간': 'images/Icons/Icon_Simple_Resurrection.png',
+            '피격 데미지': 'images/Icons/Icon_Simple_Hitdamage.png',
+            '피격데미지': 'images/Icons/Icon_Simple_Hitdamage.png'
+        };
+
+        function getStatIcon(statName) {
+            for (var key in STAT_ICON_MAP) {
+                if (statName.indexOf(key) !== -1) {
+                    return '<img src="' + STAT_ICON_MAP[key] + '" alt="" style="width:16px;height:16px;vertical-align:middle;margin-right:6px;">';
+                }
+            }
+            return '';
+        }
+
         function renderStats(level) {
             var section = document.getElementById('statsSection');
             if (!currentRelic || currentRelic.baseStat.length === 0) { section.innerHTML = ''; return; }
@@ -277,7 +345,8 @@
                 var sign = value >= 0 ? '+' : '';
                 var isNegativeGood = negativeIsGood.indexOf(name) !== -1;
                 var isNegative = isNegativeGood ? (value > 0) : (value < 0);
-                html += '<div class="stat-line"><span class="label">' + name + '</span><span class="value' + (isNegative ? ' negative' : '') + '">' + sign + value + unit + '</span></div>';
+                var icon = getStatIcon(name);
+                html += '<div class="stat-line"><span class="label">' + icon + name + '</span><span class="value' + (isNegative ? ' negative' : '') + '">' + sign + value + unit + '</span></div>';
             }
             html += '</div>';
             section.innerHTML = html;

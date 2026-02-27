@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엠블럼 - 성지키기 헬퍼</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; line-height: 1.5; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px 15px; }
+        .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; background: transparent; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.85rem; text-decoration: none; margin-bottom: 20px; transition: all 0.2s; }
+        .back-btn:hover { background: rgba(255,255,255,0.05); }
+        header { text-align: center; margin-bottom: 30px; }
+        header h1 { font-size: 1.5rem; font-weight: 700; }
+        header p { font-size: 0.85rem; opacity: 0.5; margin-top: 8px; }
+
+        /* Info Box */
+        .info-box { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(167,139,250,0.05)); border: 1px solid rgba(167,139,250,0.2); border-radius: 12px; padding: 16px 20px; margin-bottom: 25px; }
+        .info-box ul { list-style: none; }
+        .info-box li { position: relative; padding-left: 20px; font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 6px; }
+        .info-box li:last-child { margin-bottom: 0; }
+        .info-box li::before { content: '•'; position: absolute; left: 6px; color: #a78bfa; }
+        .info-box strong { color: #fbbf24; font-weight: 600; }
+
+        /* Emblem Cards */
+        .emblem-list { display: flex; flex-direction: column; gap: 16px; }
+        
+        .emblem-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; transition: all 0.2s; }
+        .emblem-card:hover { border-color: rgba(255,255,255,0.2); }
+        
+        .emblem-card.bronze { --emblem-color: #cd7f32; --emblem-glow: rgba(205,127,50,0.3); }
+        .emblem-card.silver { --emblem-color: #c0c0c0; --emblem-glow: rgba(192,192,192,0.3); }
+        .emblem-card.gold { --emblem-color: #ffd700; --emblem-glow: rgba(255,215,0,0.3); }
+        .emblem-card.diamond { --emblem-color: #b9f2ff; --emblem-glow: rgba(185,242,255,0.3); }
+        .emblem-card.platinum { --emblem-color: #e5e4e2; --emblem-glow: rgba(229,228,226,0.4); }
+
+        .emblem-header { display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, var(--emblem-glow), transparent); border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .emblem-icon { width: 56px; height: 56px; border-radius: 12px; background: rgba(0,0,0,0.3); border: 2px solid var(--emblem-color); box-shadow: 0 0 20px var(--emblem-glow); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .emblem-icon img { width: 100%; height: 100%; object-fit: contain; }
+        .emblem-title-area { flex: 1; }
+        .emblem-name { font-size: 1.15rem; font-weight: 700; color: var(--emblem-color); text-shadow: 0 0 20px var(--emblem-glow); }
+        .emblem-subtitle { font-size: 0.8rem; opacity: 0.5; margin-top: 2px; }
+
+        .emblem-body { padding: 16px 20px; }
+        
+        /* Level Grid - 6 columns (5 levels + 1 reward) */
+        .level-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 12px; }
+        
+        .level-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px 6px; text-align: center; transition: all 0.15s; }
+        .level-item:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); }
+        .level-item.upgrade { background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.08)); border-color: rgba(34,197,94,0.3); }
+        
+        .level-num { font-size: 0.7rem; opacity: 0.5; margin-bottom: 6px; }
+        .level-cost { display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 0.9rem; font-weight: 600; color: #fff; }
+        .level-cost img { width: 16px; height: 16px; object-fit: contain; }
+        .level-item.upgrade .level-cost { color: #22c55e; }
+
+        /* Reward Column */
+        .reward-item { background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(167,139,250,0.1)); border: 1px solid rgba(167,139,250,0.3); border-radius: 10px; padding: 10px 6px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+        .reward-label { font-size: 0.65rem; opacity: 0.6; margin-bottom: 4px; }
+        .reward-text { font-size: 0.75rem; color: #a78bfa; font-weight: 500; line-height: 1.3; }
+
+        /* Footer */
+        footer { text-align: center; padding: 30px 0 10px; opacity: 0.3; font-size: 0.75rem; }
+
+        /* Stat Effect */
+        .emblem-stat { display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.25); border-radius: 20px; font-size: 0.85rem; color: #22c55e; font-weight: 500; }
+        .emblem-stat img { width: 18px; height: 18px; object-fit: contain; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .level-grid { grid-template-columns: repeat(6, 1fr); gap: 6px; }
+            .level-item { padding: 8px 4px; }
+            .level-cost { font-size: 0.75rem; gap: 3px; }
+            .level-cost img { width: 14px; height: 14px; }
+            .level-num { font-size: 0.6rem; }
+            .reward-text { font-size: 0.65rem; }
+            .emblem-header { padding: 14px 16px; gap: 12px; }
+            .emblem-icon { width: 48px; height: 48px; }
+            .emblem-name { font-size: 1rem; }
+            .emblem-body { padding: 14px 16px; }
+        }
+        
+        @media (max-width: 650px) {
+            .level-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .level-item { padding: 10px 6px; }
+            .level-cost { font-size: 0.85rem; }
+        }
+        
+        @media (max-width: 400px) {
+            .level-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .level-item { padding: 8px 4px; }
+            .level-cost { font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← 메인으로</a>
+        <header>
+            <h1>🏅 엠블럼</h1>
+            <p>엠블럼을 강화하고 승급하여 버프를 얻으세요</p>
+        </header>
+        
+        <div class="info-box">
+            <ul>
+                <li>각 레벨 강화 시 <strong>초월석조각</strong>이 소모됩니다.</li>
+                <li>Lv 10 도달 후 승급 시 브론즈~실버는 <strong>초월석조각</strong>, 골드~다이아는 <strong>초월석</strong>이 필요합니다.</li>
+            </ul>
+        </div>
+        
+        <div class="emblem-list">
+            <!-- 브론즈 -->
+            <div class="emblem-card bronze">
+                <div class="emblem-header">
+                    <div class="emblem-icon">
+                        <img src="images/emblems/브론즈.png" alt="브론즈">
+                    </div>
+                    <div class="emblem-title-area">
+                        <div class="emblem-name">브론즈</div>
+                        <div class="emblem-subtitle">Bronze Emblem</div>
+                    </div>
+                    <div class="emblem-stat"><img src="images/Icons/Icon_Simple_Attack.png" alt="">공격력 +2/레벨 (총 +20)</div>
+                </div>
+                <div class="emblem-body">
+                    <!-- Row 1: LV1~5 + Reward -->
+                    <div class="level-grid">
+                        <div class="level-item"><div class="level-num">LV 1 → LV 2</div><div class="level-cost">15 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 2 → LV 3</div><div class="level-cost">20 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 3 → LV 4</div><div class="level-cost">25 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 4 → LV 5</div><div class="level-cost">30 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 5 → LV 6</div><div class="level-cost">35 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="reward-item"><div class="reward-label">LV 5 보상</div><div class="reward-text">🎁 각 광석 50개</div></div>
+                    </div>
+                    <!-- Row 2: LV6~10 + Reward -->
+                    <div class="level-grid">
+                        <div class="level-item"><div class="level-num">LV 6 → LV 7</div><div class="level-cost">40 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 7 → LV 8</div><div class="level-cost">45 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 8 → LV 9</div><div class="level-cost">50 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 9 → LV 10</div><div class="level-cost">55 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item upgrade"><div class="level-num">LV 10 → 실버 승급</div><div class="level-cost">100 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="reward-item"><div class="reward-label">LV 10 보상</div><div class="reward-text">🎁 각 광석 100개</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 실버 -->
+            <div class="emblem-card silver">
+                <div class="emblem-header">
+                    <div class="emblem-icon">
+                        <img src="images/emblems/실버.png" alt="실버">
+                    </div>
+                    <div class="emblem-title-area">
+                        <div class="emblem-name">실버</div>
+                        <div class="emblem-subtitle">Silver Emblem</div>
+                    </div>
+                    <div class="emblem-stat"><img src="images/Icons/Icon_Simple_AttackSpeed.png" alt="">공속 +1%/레벨 (총 +10%)</div>
+                </div>
+                <div class="emblem-body">
+                    <div class="level-grid">
+                        <div class="level-item"><div class="level-num">LV 1 → LV 2</div><div class="level-cost">160 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 2 → LV 3</div><div class="level-cost">170 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 3 → LV 4</div><div class="level-cost">180 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 4 → LV 5</div><div class="level-cost">190 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 5 → LV 6</div><div class="level-cost">200 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="reward-item"><div class="reward-label">LV 5 보상</div><div class="reward-text">🎁 각 광석 50개</div></div>
+                    </div>
+                    <div class="level-grid">
+                        <div class="level-item"><div class="level-num">LV 6 → LV 7</div><div class="level-cost">210 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 7 → LV 8</div><div class="level-cost">220 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 8 → LV 9</div><div class="level-cost">230 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 9 → LV 10</div><div class="level-cost">240 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item upgrade"><div class="level-num">LV 10 → 골드 승급</div><div class="level-cost">500 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="reward-item"><div class="reward-label">LV 10 보상</div><div class="reward-text">🎁 각 광석 150개</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 골드 -->
+            <div class="emblem-card gold">
+                <div class="emblem-header">
+                    <div class="emblem-icon">
+                        <img src="images/emblems/골드.png" alt="골드">
+                    </div>
+                    <div class="emblem-title-area">
+                        <div class="emblem-name">골드</div>
+                        <div class="emblem-subtitle">Gold Emblem</div>
+                    </div>
+                    <div class="emblem-stat"><img src="images/Icons/Icon_Simple_Shield.png" alt="">방어력 6+1/레벨 (총 +15)</div>
+                </div>
+                <div class="emblem-body">
+                    <div class="level-grid">
+                        <div class="level-item"><div class="level-num">LV 1 → LV 2</div><div class="level-cost">1,350 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 2 → LV 3</div><div class="level-cost">1,700 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 3 → LV 4</div><div class="level-cost">2,050 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 4 → LV 5</div><div class="level-cost">2,400 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 5 → LV 6</div><div class="level-cost">2,750 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="reward-item"><div class="reward-label">LV 5 보상</div><div class="reward-text">🎁 초월석 1,000개</div></div>
+                    </div>
+                    <div class="level-grid">
+                        <div class="level-item"><div class="level-num">LV 6 → LV 7</div><div class="level-cost">3,100 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 7 → LV 8</div><div class="level-cost">3,450 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 8 → LV 9</div><div class="level-cost">3,800 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 9 → LV 10</div><div class="level-cost">4,150 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item upgrade"><div class="level-num">LV 10 → 다이아 승급</div><div class="level-cost">10,000 <img src="images/초월석.png" alt="초월석"></div></div>
+                        <div class="reward-item"><div class="reward-label">LV 10 보상</div><div class="reward-text">🎁 초월석 1,500개</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 다이아 -->
+            <div class="emblem-card diamond">
+                <div class="emblem-header">
+                    <div class="emblem-icon">
+                        <img src="images/emblems/다이아.png" alt="다이아">
+                    </div>
+                    <div class="emblem-title-area">
+                        <div class="emblem-name">다이아</div>
+                        <div class="emblem-subtitle">Diamond Emblem</div>
+                    </div>
+                    <div class="emblem-stat"><img src="images/Icons/Icon_Simple_CriticalDmg.png" alt="">크뎀 +1%/레벨 (총 +10%)</div>
+                </div>
+                <div class="emblem-body">
+                    <div class="level-grid">
+                        <div class="level-item"><div class="level-num">LV 1 → LV 2</div><div class="level-cost">5,300 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 2 → LV 3</div><div class="level-cost">5,600 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 3 → LV 4</div><div class="level-cost">5,900 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 4 → LV 5</div><div class="level-cost">6,200 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 5 → LV 6</div><div class="level-cost">6,500 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="reward-item"><div class="reward-label">LV 5 보상</div><div class="reward-text">🎁 초월석 1,500개</div></div>
+                    </div>
+                    <div class="level-grid">
+                        <div class="level-item"><div class="level-num">LV 6 → LV 7</div><div class="level-cost">6,800 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 7 → LV 8</div><div class="level-cost">7,100 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 8 → LV 9</div><div class="level-cost">7,400 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 9 → LV 10</div><div class="level-cost">7,700 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item upgrade"><div class="level-num">LV 10 → 플래티넘 승급</div><div class="level-cost">20,000 <img src="images/초월석.png" alt="초월석"></div></div>
+                        <div class="reward-item"><div class="reward-label">LV 10 보상</div><div class="reward-text">🎁 초월석 2,000개</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 플래티넘 -->
+            <div class="emblem-card platinum">
+                <div class="emblem-header">
+                    <div class="emblem-icon">
+                        <img src="images/emblems/플레티넘.png" alt="플래티넘">
+                    </div>
+                    <div class="emblem-title-area">
+                        <div class="emblem-name">플래티넘</div>
+                        <div class="emblem-subtitle">Platinum Emblem</div>
+                    </div>
+                    <div class="emblem-stat"><img src="images/Icons/Icon_Simple_Hitdamage.png" alt="">피격뎀 -1%/레벨 (총 -10%)</div>
+                </div>
+                <div class="emblem-body">
+                    <div class="level-grid">
+                        <div class="level-item"><div class="level-num">LV 1 → LV 2</div><div class="level-cost">11,000 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 2 → LV 3</div><div class="level-cost">12,000 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 3 → LV 4</div><div class="level-cost">13,000 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 4 → LV 5</div><div class="level-cost">14,000 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 5 → LV 6</div><div class="level-cost">15,000 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="reward-item"><div class="reward-label">LV 5 보상</div><div class="reward-text">🎁 초월석 5,000개</div></div>
+                    </div>
+                    <div class="level-grid">
+                        <div class="level-item"><div class="level-num">LV 6 → LV 7</div><div class="level-cost">16,000 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 7 → LV 8</div><div class="level-cost">17,000 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 8 → LV 9</div><div class="level-cost">18,000 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item"><div class="level-num">LV 9 → LV 10</div><div class="level-cost">19,000 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="level-item upgrade"><div class="level-num">MAX</div><div class="level-cost">20,000 <img src="images/초월석 조각.png" alt="조각"></div></div>
+                        <div class="reward-item"><div class="reward-label">LV 10 보상</div><div class="reward-text">🎁 흑수정 1,000개</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>© 2026 성지키기 헬퍼. All Rights Reserved.</footer>
+    </div>
+</body>
+</html>

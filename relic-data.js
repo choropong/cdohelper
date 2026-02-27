@@ -251,8 +251,8 @@ const RELIC_DATA = [
     // 레이드 13단계
     { id: 'spiritblessing', name: '정령의 축복', tier: '레이드 13단계', blackhammerTier: null,
       baseStat: [],
-      ability: '디펜스 3단계까지 난이도 비례 클리어 경험치 상승 1%(고정), 초기 실버 1%(고정) (장비 무관하게 적용, 최대 난이도 3까지 적용)',
-      abilityStart: 1, noAbilityMultiplier: true },
+      ability: '디펜스 {3}단계까지 난이도 비례 클리어 경험치 상승 1%(고정), 초기 실버 1%(고정) (장비 무관하게 적용, 최대 난이도 {3}까지 적용)',
+      abilityStart: 1 },
     { id: 'silverhunter', name: '실버헌터', tier: '레이드 13단계', blackhammerTier: null,
       baseStat: [],
       ability: '1초(고정)간 움직임 지속 시 은화 +{34/+2} (장착무관, 최대 {2000/+1000}), 5초마다 공격력의 20%(고정) 폭탄 생성, 공격력은 보유 은화 {900/-50}당 +1%(고정) (최대 +20%(고정))',
