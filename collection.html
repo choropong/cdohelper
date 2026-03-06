@@ -111,6 +111,18 @@
         .tier-relics { display: flex; flex-wrap: wrap; gap: 6px; padding-left: 8px; }
         .tier-relic { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; }
 
+        /* 소환 유물 정보 */
+        .summon-info { margin-top: 16px; padding: 16px; background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(16,185,129,0.05)); border: 1px solid rgba(34,197,94,0.25); border-radius: 12px; }
+        .summon-info h4 { font-size: 0.85rem; color: #22c55e; margin-bottom: 12px; opacity: 1; text-transform: none; letter-spacing: 0; }
+        .summon-costs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+        .summon-cost-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); }
+        .summon-piece { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+        .summon-cost { display: flex; align-items: center; gap: 4px; font-size: 0.85rem; font-weight: 600; color: #10b981; }
+        .summon-cost img { width: 16px; height: 16px; object-fit: contain; }
+        .summon-total { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; background: rgba(34,197,94,0.15); border-radius: 8px; font-size: 0.9rem; color: rgba(255,255,255,0.9); }
+        .summon-total strong { display: flex; align-items: center; gap: 4px; color: #22c55e; }
+        .summon-total img { width: 18px; height: 18px; object-fit: contain; }
+
         footer { text-align: center; padding: 30px 0 10px; opacity: 0.3; font-size: 0.75rem; }
         footer a { color: inherit; text-decoration: none; }
         footer a:hover { opacity: 0.7; }
@@ -294,11 +306,37 @@
             currentRelic = null;
         }
 
+        // 소환 유물 정보
+        var SUMMON_RELIC_DATA = {
+            '블랙해머': { costs: [500, 1000, 1500, 2000], total: 5000 },
+            '성지키기설계도': { costs: [500, 1000, 1500, 2000], total: 5000 },
+            '황금알오리': { costs: [700, 1400, 2100, 2800], total: 7000 },
+            '언약궤': { costs: [700, 1400, 2100, 2800], total: 7000 },
+            '영웅의 펜타곤': { costs: [1000, 2000, 3000, 4000], total: 10000 },
+            '초월의 서': { costs: [1000, 2000, 3000, 4000], total: 10000 }
+        };
+
         function renderBlackhammerUI() {
             var body = document.getElementById('modalBody');
             var html = '<div class="blackhammer-info">';
             html += '<div class="blackhammer-desc"><h4>블랙해머 효과</h4><p>다른 유물들의 특수능력을 +1강 증가시킵니다.<br>(장착 무관하며 보유 시 발동)</p></div>';
             html += '<div class="blackhammer-9plus"><strong>9강 추가 효과</strong><br><span style="font-size:0.85rem; opacity:0.9;">데미갓 이상일 경우 유물 장착 슬롯 +1</span></div>';
+            
+            // 블랙해머 소환 정보 추가
+            var summonData = SUMMON_RELIC_DATA['블랙해머'];
+            html += '<div class="summon-info">';
+            html += '<h4>📜 소환 정보</h4>';
+            html += '<div class="summon-costs">';
+            for (var i = 0; i < summonData.costs.length; i++) {
+                html += '<div class="summon-cost-item">';
+                html += '<span class="summon-piece">조각 ' + (i + 1) + '</span>';
+                html += '<span class="summon-cost">' + summonData.costs[i].toLocaleString() + ' <img src="images/Icons/소환서.png" alt="소환서"></span>';
+                html += '</div>';
+            }
+            html += '</div>';
+            html += '<div class="summon-total">총 필요량: <strong>' + summonData.total.toLocaleString() + ' <img src="images/Icons/소환서.png" alt="소환서"></strong></div>';
+            html += '</div>';
+            
             html += '<h4 style="font-size:0.85rem; opacity:0.6; margin-bottom:12px;">강화 단계별 적용 유물</h4>';
             for (var tier = 1; tier <= 8; tier++) {
                 var relics = BLACKHAMMER_TIERS[tier] || [];
@@ -409,6 +447,24 @@
                     html += '<div class="blackhammer-note">블랙해머 ' + currentRelic.blackhammerTier + '강 이상 보유 시 적용</div>';
                 }
             }
+            
+            // 소환 유물 정보 추가
+            var summonData = SUMMON_RELIC_DATA[currentRelic.name];
+            if (summonData) {
+                html += '<div class="summon-info">';
+                html += '<h4>📜 소환 정보</h4>';
+                html += '<div class="summon-costs">';
+                for (var i = 0; i < summonData.costs.length; i++) {
+                    html += '<div class="summon-cost-item">';
+                    html += '<span class="summon-piece">조각 ' + (i + 1) + '</span>';
+                    html += '<span class="summon-cost">' + summonData.costs[i].toLocaleString() + ' <img src="images/Icons/소환서.png" alt="소환서"></span>';
+                    html += '</div>';
+                }
+                html += '</div>';
+                html += '<div class="summon-total">총 필요량: <strong>' + summonData.total.toLocaleString() + ' <img src="images/Icons/소환서.png" alt="소환서"></strong></div>';
+                html += '</div>';
+            }
+            
             section.innerHTML = html;
         }
 

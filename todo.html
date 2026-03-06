@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일과 - 성지키기 헬퍼</title>
+    
+    <meta name="description" content="성지키기 일과 체크리스트 - Made by 얼음(짭)">
+    <meta name="author" content="얼음(짭)">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="일과 - 성지키기 헬퍼">
+    <meta property="og:description" content="Made by 얼음(짭)">
+    <meta property="og:image" content="images/icon.png">
+    <meta property="og:locale" content="ko_KR">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="일과 - 성지키기 헬퍼">
+    <meta name="twitter:description" content="Made by 얼음(짭)">
+    <meta name="twitter:image" content="images/icon.png">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <link rel="manifest" href="favicons/site.webmanifest">
+    <link rel="shortcut icon" href="favicons/favicon.ico">
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-main: #0a0a0a;
+            --bg-card: rgba(255,255,255,0.03);
+            --bg-hover: rgba(255,255,255,0.06);
+            --border: rgba(255,255,255,0.1);
+            --border-light: rgba(255,255,255,0.06);
+            --primary: #6366f1;
+            --primary-glow: rgba(99,102,241,0.3);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text: #fff;
+            --text-muted: rgba(255,255,255,0.5);
+            --text-dim: rgba(255,255,255,0.35);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Pretendard', -apple-system, sans-serif; background: var(--bg-main); color: var(--text); min-height: 100vh; line-height: 1.5; }
+        .container { max-width: 800px; margin: 0 auto; padding: 30px 20px 60px; }
+        
+        .back-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: transparent; border: 1px solid var(--border); border-radius: 8px; color: var(--text); font: inherit; font-size: 0.9rem; cursor: pointer; text-decoration: none; margin-bottom: 20px; transition: all 0.2s; }
+        .back-btn:hover { background: var(--bg-hover); border-color: rgba(255,255,255,0.2); }
+        
+        header { text-align: center; margin-bottom: 30px; padding: 30px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); }
+        header h1 { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, #fff, #a0a0a0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 8px; }
+        
+        .time-info { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+        .time-badge { display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: rgba(255,255,255,0.05); border-radius: 20px; font-size: 0.8rem; }
+        .time-badge .dot { width: 8px; height: 8px; border-radius: 50%; }
+        .time-badge.midnight .dot { background: var(--primary); }
+        .time-badge.two-am .dot { background: var(--warning); }
+        
+        .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+        .section-title { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .section-title .icon { font-size: 1.2rem; }
+        .section-badge { font-size: 0.75rem; padding: 4px 10px; border-radius: 12px; font-weight: 600; }
+        .section-badge.midnight { background: rgba(99,102,241,0.2); color: #a5b4fc; }
+        .section-badge.two-am { background: rgba(245,158,11,0.2); color: #fcd34d; }
+        .section-badge.permanent { background: rgba(34,197,94,0.2); color: #86efac; }
+        
+        .todo-list { display: flex; flex-direction: column; gap: 8px; }
+        .todo-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-light); border-radius: 10px; cursor: pointer; transition: all 0.2s; }
+        .todo-item:hover { background: var(--bg-hover); border-color: var(--border); }
+        .todo-item.checked { opacity: 0.5; }
+        .todo-item.checked .todo-text { text-decoration: line-through; }
+        
+        .todo-checkbox { width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+        .todo-item.checked .todo-checkbox { background: var(--success); border-color: var(--success); }
+        .todo-checkbox::after { content: '✓'; color: #fff; font-size: 0.8rem; font-weight: 700; opacity: 0; transition: opacity 0.2s; }
+        .todo-item.checked .todo-checkbox::after { opacity: 1; }
+        
+        .todo-text { flex: 1; font-size: 0.95rem; }
+        .todo-delete { width: 28px; height: 28px; border: none; background: transparent; color: var(--text-dim); font-size: 1.2rem; cursor: pointer; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; opacity: 0; }
+        .todo-item:hover .todo-delete { opacity: 1; }
+        .todo-delete:hover { background: rgba(239,68,68,0.2); color: var(--danger); }
+        
+        .add-todo-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; background: transparent; border: 2px dashed var(--border); border-radius: 10px; color: var(--text-muted); font: inherit; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; margin-top: 12px; }
+        .add-todo-btn:hover { border-color: var(--primary); color: var(--primary); background: rgba(99,102,241,0.05); }
+        
+        /* 모달 */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s; padding: 20px; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal { background: #1a1a1a; border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 400px; overflow: hidden; transform: scale(0.9); transition: transform 0.3s; }
+        .modal-overlay.active .modal { transform: scale(1); }
+        .modal-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .modal-header h3 { font-size: 1.1rem; font-weight: 700; }
+        .modal-close { width: 32px; height: 32px; border: none; background: transparent; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .modal-close:hover { background: var(--bg-hover); color: var(--text); }
+        .modal-body { padding: 20px; }
+        
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--text-muted); }
+        .form-input { width: 100%; padding: 12px 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font: inherit; font-size: 0.95rem; }
+        .form-input:focus { outline: none; border-color: var(--primary); }
+        .form-input::placeholder { color: var(--text-dim); }
+        
+        .form-options { display: flex; flex-direction: column; gap: 8px; }
+        .form-option { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .form-option:hover { border-color: var(--primary); }
+        .form-option.selected { border-color: var(--primary); background: rgba(99,102,241,0.1); }
+        .form-option input { display: none; }
+        .option-radio { width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .form-option.selected .option-radio { border-color: var(--primary); }
+        .option-radio::after { content: ''; width: 8px; height: 8px; background: var(--primary); border-radius: 50%; opacity: 0; transition: opacity 0.2s; }
+        .form-option.selected .option-radio::after { opacity: 1; }
+        .option-text { flex: 1; }
+        .option-title { font-size: 0.9rem; font-weight: 600; }
+        .option-desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+        
+        .form-submit { width: 100%; padding: 14px; background: var(--primary); border: none; border-radius: 10px; color: #fff; font: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .form-submit:hover { filter: brightness(1.1); }
+        .form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .empty-state { text-align: center; padding: 30px; color: var(--text-dim); font-size: 0.9rem; }
+        
+        .progress-bar { height: 4px; background: var(--border-light); border-radius: 2px; margin-top: 16px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--success); border-radius: 2px; transition: width 0.3s; }
+        
+        .footer { text-align: center; padding-top: 40px; font-size: 0.75rem; color: var(--text-dim); }
+        .footer a { color: inherit; text-decoration: none; }
+        .footer a:hover { opacity: 0.7; }
+        
+        @media (max-width: 500px) {
+            .time-info { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← 메인으로</a>
+        
+        <header>
+            <h1>📋 일과</h1>
+            <p>매일 할 일을 체크하고 관리하세요</p>
+            <div class="time-info">
+                <div class="time-badge midnight">
+                    <span class="dot"></span>
+                    <span>자정(00:00) 초기화: 영혼 합성, 출석체크</span>
+                </div>
+                <div class="time-badge two-am">
+                    <span class="dot"></span>
+                    <span>오전 2시 초기화: 광산, 레이드 숙제</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 자정 초기화 일과 -->
+        <div class="section" id="midnightSection">
+            <div class="section-header">
+                <div class="section-title"><span class="icon">🌙</span> 자정 초기화</div>
+                <span class="section-badge midnight">매일 00:00 초기화</span>
+            </div>
+            <div class="todo-list" id="midnightList"></div>
+            <button class="add-todo-btn" onclick="openModal('midnight')">+ 할 일 추가</button>
+            <div class="progress-bar"><div class="progress-fill" id="midnightProgress"></div></div>
+        </div>
+
+        <!-- 오전 2시 초기화 일과 -->
+        <div class="section" id="twoAmSection">
+            <div class="section-header">
+                <div class="section-title"><span class="icon">⏰</span> 오전 2시 초기화</div>
+                <span class="section-badge two-am">매일 02:00 초기화</span>
+            </div>
+            <div class="todo-list" id="twoAmList"></div>
+            <button class="add-todo-btn" onclick="openModal('twoAm')">+ 할 일 추가</button>
+            <div class="progress-bar"><div class="progress-fill" id="twoAmProgress"></div></div>
+        </div>
+
+        <!-- 영구 할 일 -->
+        <div class="section" id="permanentSection">
+            <div class="section-header">
+                <div class="section-title"><span class="icon">📌</span> 영구 할 일</div>
+                <span class="section-badge permanent">초기화 없음</span>
+            </div>
+            <div class="todo-list" id="permanentList"></div>
+            <button class="add-todo-btn" onclick="openModal('permanent')">+ 할 일 추가</button>
+        </div>
+
+        <div class="footer">© 2026 얼음짭 · <a href="credits.html">크레딧</a></div>
+    </div>
+
+    <!-- 할 일 추가 모달 -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>할 일 추가</h3>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">할 일 내용</label>
+                    <input type="text" class="form-input" id="todoInput" placeholder="할 일을 입력하세요" maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">유형 선택</label>
+                    <div class="form-options" id="typeOptions">
+                        <label class="form-option selected" data-type="midnight">
+                            <input type="radio" name="todoType" value="midnight" checked>
+                            <span class="option-radio"></span>
+                            <div class="option-text">
+                                <div class="option-title">🌙 자정 초기화</div>
+                                <div class="option-desc">매일 00:00에 체크 해제</div>
+                            </div>
+                        </label>
+                        <label class="form-option" data-type="twoAm">
+                            <input type="radio" name="todoType" value="twoAm">
+                            <span class="option-radio"></span>
+                            <div class="option-text">
+                                <div class="option-title">⏰ 오전 2시 초기화</div>
+                                <div class="option-desc">매일 02:00에 체크 해제</div>
+                            </div>
+                        </label>
+                        <label class="form-option" data-type="permanent">
+                            <input type="radio" name="todoType" value="permanent">
+                            <span class="option-radio"></span>
+                            <div class="option-text">
+                                <div class="option-title">📌 영구 할 일</div>
+                                <div class="option-desc">삭제 전까지 유지</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <button class="form-submit" id="submitBtn" onclick="addTodo()">추가하기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 기본 일과 데이터
+        const DEFAULT_TODOS = {
+            midnight: [
+                { id: 'default_soul', text: '영혼 합성', checked: false, isDefault: true },
+                { id: 'default_attendance', text: '출석체크', checked: false, isDefault: true }
+            ],
+            twoAm: [
+                { id: 'default_mine', text: '광산', checked: false, isDefault: true },
+                { id: 'default_raid', text: '레이드 숙제', checked: false, isDefault: true }
+            ],
+            permanent: []
+        };
+
+        // 로컬 스토리지 키
+        const STORAGE_KEY = 'cdohelper_todos';
+        const RESET_KEY = 'cdohelper_reset_times';
+
+        // 데이터 로드
+        function loadData() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            return JSON.parse(JSON.stringify(DEFAULT_TODOS));
+        }
+
+        // 데이터 저장
+        function saveData(data) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        // 리셋 시간 로드
+        function loadResetTimes() {
+            const saved = localStorage.getItem(RESET_KEY);
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            return { midnight: 0, twoAm: 0 };
+        }
+
+        // 리셋 시간 저장
+        function saveResetTimes(times) {
+            localStorage.setItem(RESET_KEY, JSON.stringify(times));
+        }
+
+        // 한국 시간 가져오기
+        function getKoreaTime() {
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            return new Date(utc + (9 * 60 * 60 * 1000)); // UTC+9
+        }
+
+        // 다음 리셋 시간 계산 (한국 시간 기준)
+        function getNextResetTime(hour) {
+            const korea = getKoreaTime();
+            const reset = new Date(korea);
+            reset.setHours(hour, 0, 0, 0);
+            
+            if (korea >= reset) {
+                reset.setDate(reset.getDate() + 1);
+            }
+            
+            // UTC로 변환
+            return reset.getTime() - (9 * 60 * 60 * 1000) + (new Date().getTimezoneOffset() * 60000);
+        }
+
+        // 마지막 리셋 시간 계산
+        function getLastResetTime(hour) {
+            const korea = getKoreaTime();
+            const reset = new Date(korea);
+            reset.setHours(hour, 0, 0, 0);
+            
+            if (korea < reset) {
+                reset.setDate(reset.getDate() - 1);
+            }
+            
+            return reset.getTime();
+        }
+
+        // 리셋 체크 및 적용
+        function checkAndReset() {
+            const data = loadData();
+            const resetTimes = loadResetTimes();
+            const now = Date.now();
+            
+            // 자정 리셋 체크 (한국 시간 00:00)
+            const lastMidnight = getLastResetTime(0);
+            if (resetTimes.midnight < lastMidnight) {
+                data.midnight.forEach(todo => todo.checked = false);
+                resetTimes.midnight = lastMidnight;
+            }
+            
+            // 오전 2시 리셋 체크 (한국 시간 02:00)
+            const lastTwoAm = getLastResetTime(2);
+            if (resetTimes.twoAm < lastTwoAm) {
+                data.twoAm.forEach(todo => todo.checked = false);
+                resetTimes.twoAm = lastTwoAm;
+            }
+            
+            saveData(data);
+            saveResetTimes(resetTimes);
+            return data;
+        }
+
+        // 할 일 렌더링
+        function renderTodos() {
+            const data = checkAndReset();
+            
+            renderList('midnight', data.midnight);
+            renderList('twoAm', data.twoAm);
+            renderList('permanent', data.permanent);
+            
+            updateProgress('midnight', data.midnight);
+            updateProgress('twoAm', data.twoAm);
+        }
+
+        function renderList(type, todos) {
+            const listId = type + 'List';
+            const list = document.getElementById(listId);
+            
+            if (todos.length === 0) {
+                list.innerHTML = '<div class="empty-state">할 일이 없습니다</div>';
+                return;
+            }
+            
+            let html = '';
+            todos.forEach((todo, index) => {
+                html += `
+                    <div class="todo-item ${todo.checked ? 'checked' : ''}" onclick="toggleTodo('${type}', ${index})">
+                        <div class="todo-checkbox"></div>
+                        <span class="todo-text">${escapeHtml(todo.text)}</span>
+                        ${!todo.isDefault ? `<button class="todo-delete" onclick="event.stopPropagation(); deleteTodo('${type}', ${index})">×</button>` : ''}
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        function updateProgress(type, todos) {
+            if (type === 'permanent') return;
+            
+            const total = todos.length;
+            const checked = todos.filter(t => t.checked).length;
+            const percent = total > 0 ? (checked / total) * 100 : 0;
+            
+            document.getElementById(type + 'Progress').style.width = percent + '%';
+        }
+
+        // 할 일 토글
+        function toggleTodo(type, index) {
+            const data = loadData();
+            data[type][index].checked = !data[type][index].checked;
+            saveData(data);
+            renderTodos();
+        }
+
+        // 할 일 삭제
+        function deleteTodo(type, index) {
+            if (!confirm('이 할 일을 삭제하시겠습니까?')) return;
+            
+            const data = loadData();
+            data[type].splice(index, 1);
+            saveData(data);
+            renderTodos();
+        }
+
+        // 모달 관련
+        let currentModalType = 'midnight';
+
+        function openModal(type) {
+            currentModalType = type;
+            document.getElementById('modalOverlay').classList.add('active');
+            document.getElementById('todoInput').value = '';
+            document.getElementById('todoInput').focus();
+            
+            // 라디오 버튼 선택
+            document.querySelectorAll('.form-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.dataset.type === type) {
+                    opt.classList.add('selected');
+                    opt.querySelector('input').checked = true;
+                }
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+
+        // 옵션 선택
+        document.querySelectorAll('.form-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.form-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                this.querySelector('input').checked = true;
+                currentModalType = this.dataset.type;
+            });
+        });
+
+        // 할 일 추가
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const text = input.value.trim();
+            
+            if (!text) {
+                input.focus();
+                return;
+            }
+            
+            const data = loadData();
+            const newTodo = {
+                id: 'custom_' + Date.now(),
+                text: text,
+                checked: false,
+                isDefault: false
+            };
+            
+            data[currentModalType].push(newTodo);
+            saveData(data);
+            closeModal();
+            renderTodos();
+        }
+
+        // 엔터 키로 추가
+        document.getElementById('todoInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addTodo();
+            }
+        });
+
+        // 모달 바깥 클릭 시 닫기
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // HTML 이스케이프
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTodos();
+            
+            // 1분마다 리셋 체크
+            setInterval(renderTodos, 60000);
+        });
+    </script>
+</body>
+</html>

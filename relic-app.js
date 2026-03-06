@@ -106,6 +106,22 @@ function renderBlackhammerUI() {
     var html = "<div class=\"blackhammer-info\">";
     html += "<div class=\"blackhammer-desc\"><h4>블랙해머 효과</h4><p>다른 유물들의 특수능력을 +1강 증가시킵니다.<br>(장착 무관하며 보유 시 발동)</p></div>";
     html += "<div class=\"blackhammer-9plus\"><strong>9강 추가 효과</strong><br><span style=\"font-size:0.85rem; opacity:0.9;\">데미갓 이상일 경우 유물 장착 슬롯 +1</span></div>";
+    
+    // 블랙해머 소환 정보 추가
+    var summonData = SUMMON_RELIC_DATA['블랙해머'];
+    html += "<div class=\"summon-info\">";
+    html += "<h4>📜 소환 정보</h4>";
+    html += "<div class=\"summon-costs\">";
+    for (var i = 0; i < summonData.costs.length; i++) {
+        html += "<div class=\"summon-cost-item\">";
+        html += "<span class=\"summon-piece\">조각 " + (i + 1) + "</span>";
+        html += "<span class=\"summon-cost\">" + summonData.costs[i].toLocaleString() + " <img src=\"images/Icons/소환서.png\" alt=\"소환서\"></span>";
+        html += "</div>";
+    }
+    html += "</div>";
+    html += "<div class=\"summon-total\">총 필요량: <strong>" + summonData.total.toLocaleString() + " <img src=\"images/Icons/소환서.png\" alt=\"소환서\"></strong></div>";
+    html += "</div>";
+    
     html += "<h4 style=\"font-size:0.85rem; opacity:0.6; margin-bottom:12px;\">강화 단계별 적용 유물</h4>";
     for (var tier = 1; tier <= 8; tier++) {
         var relics = BLACKHAMMER_TIERS[tier] || [];
@@ -203,6 +219,16 @@ function renderStats(level) {
     section.innerHTML = html;
 }
 
+// 소환 유물 정보
+var SUMMON_RELIC_DATA = {
+    '블랙해머': { costs: [500, 1000, 1500, 2000], total: 5000 },
+    '성지키기설계도': { costs: [500, 1000, 1500, 2000], total: 5000 },
+    '황금알오리': { costs: [700, 1400, 2100, 2800], total: 7000 },
+    '언약궤': { costs: [700, 1400, 2100, 2800], total: 7000 },
+    '영웅의 펜타곤': { costs: [1000, 2000, 3000, 4000], total: 10000 },
+    '초월의 서': { costs: [1000, 2000, 3000, 4000], total: 10000 }
+};
+
 function renderAbility(level) {
     var section = document.getElementById("abilitySection");
     if (!currentRelic) { section.innerHTML = ""; return; }
@@ -216,6 +242,24 @@ function renderAbility(level) {
             html += "<div class=\"blackhammer-note\">블랙해머 " + currentRelic.blackhammerTier + "강 이상 보유 시 적용</div>";
         }
     }
+    
+    // 소환 유물 정보 추가
+    var summonData = SUMMON_RELIC_DATA[currentRelic.name];
+    if (summonData) {
+        html += "<div class=\"summon-info\">";
+        html += "<h4>📜 소환 정보</h4>";
+        html += "<div class=\"summon-costs\">";
+        for (var i = 0; i < summonData.costs.length; i++) {
+            html += "<div class=\"summon-cost-item\">";
+            html += "<span class=\"summon-piece\">조각 " + (i + 1) + "</span>";
+            html += "<span class=\"summon-cost\">" + summonData.costs[i].toLocaleString() + " <img src=\"images/Icons/소환서.png\" alt=\"소환서\"></span>";
+            html += "</div>";
+        }
+        html += "</div>";
+        html += "<div class=\"summon-total\">총 필요량: <strong>" + summonData.total.toLocaleString() + " <img src=\"images/Icons/소환서.png\" alt=\"소환서\"></strong></div>";
+        html += "</div>";
+    }
+    
     section.innerHTML = html;
 }
 
